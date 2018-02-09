@@ -100,7 +100,7 @@
 <meta property="og:image" content="http://yoursite.com/image/gitlab/11.png">
 <meta property="og:image" content="http://yoursite.com/image/gitlab/12.png">
 <meta property="og:image" content="http://yoursite.com/image/gitlab/13.png">
-<meta property="og:updated_time" content="2018-02-09T14:12:31.074Z">
+<meta property="og:updated_time" content="2018-02-09T14:14:31.272Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos7安装部署gitlab">
 <meta name="twitter:description" content="一、gitlab简介：GitLab是利用Ruby On Rails开发的一个开源版本管理系统，实现了一个自托管的Git项目仓库，是集代码托管，测试，部署于一体的开源git仓库管理软件，可通过web界面来进行访问公开的或私人项目。与Github类似，GitLab能够浏览代码，管理缺陷和注释。可以管理团队对仓库的访问，它非常易于浏览提交过的版本，并提供一个文件历史库。它还提供一个代码片段收集功能可以轻">
@@ -356,7 +356,7 @@
 
       
         <h1 id="一、gitlab简介："><a href="#一、gitlab简介：" class="headerlink" title="一、gitlab简介："></a>一、gitlab简介：</h1><p>GitLab是利用Ruby On Rails开发的一个开源版本管理系统，实现了一个自托管的Git项目仓库，是集代码托管，测试，部署于一体的开源git仓库管理软件，可通过web界面来进行访问公开的或私人项目。与Github类似，GitLab能够浏览代码，管理缺陷和注释。可以管理团队对仓库的访问，它非常易于浏览提交过的版本，并提供一个文件历史库。它还提供一个代码片段收集功能可以轻松实现代码复用，便于日后需要的时候查找。</p>
-<h1 id="二、安装环境："><a href="#二、安装环境：" class="headerlink" title="二、安装环境："></a>二、安装环境：</h1><p>操作系统：CentOS Linux release 7.4.1708 (Core)<br>Gitlab 版本：gitlab-ce-10.3.3<br>安装方式：由于源代码的安装需要安装很多软件包在过程中可能会出错，所以此用官方推荐的omnibus软件包安装方式，Omnibus软件包更可靠的一个原因是它使用Runit重新启动任何GitLab进程以防万一崩溃。在大量使用的GitLab实例上，Sidekiq后台工作的内存使用量将随着时间的推移而增长。Omnibus软件包通过让Sidekiq如果使用太多内存而终止来解决这个问题。在这个终止之后，Runit会检测到Sidekiq有没有运行，如果没有会启动它。由于从源代码安装没有Runit，Sidekiq无法终止，其内存使用量将随着时间的推移而增长。</p>
+<h1 id="二、安装环境："><a href="#二、安装环境：" class="headerlink" title="二、安装环境："></a>二、安装环境：</h1><p>操作系统：CentOS Linux release 7.4.1708 (Core)<br>Gitlab 版本：gitlab-ce-10.3.3<br>安装方式：由于源代码的安装需要安装很多软件包在过程中可能会出错，所以此用官方推荐的omnibus软件包安装方式，Omnibus软件包更可靠的一个原因是它使用Runit重新启动任何GitLab进程以防万一崩溃。在大量使用的GitLab实例上，Sidekiq后台工作的内存使用量将随着时间的推移而增长。Omnibus软件包通过让Sidekiq如果使用太多内存而终止来解决这个问题。在这个终止之后，Runit会检测到Sidekiq有没有运行，如果没有会启动它。由于从源代码安装没有Runit，Sidekiq无法终止，其内存使用量将随着时间的推移而增长。<br><a id="more"></a></p>
 <h1 id="三、安装所有依赖软件："><a href="#三、安装所有依赖软件：" class="headerlink" title="三、安装所有依赖软件："></a>三、安装所有依赖软件：</h1><p>[root@gitlab-ce yum.repos.d]# yum install curl policycoreutils openssh-server openssl-clients<br>[root@gitlab-ce yum.repos.d]# systemctl enable sshd<br>[root@gitlab-ce yum.repos.d]# systemctl start sshd<br>[root@gitlab-ce yum.repos.d]# firewall-cmd —permanent —add-service=http //防火墙允许http访问<br>[root@gitlab-ce yum.repos.d]# systemmctl reload firewalld</p>
 <h1 id="四、安装postfix："><a href="#四、安装postfix：" class="headerlink" title="四、安装postfix："></a>四、安装postfix：</h1><p>[root@gitlab-ce yum.repos.d]# yum -y install postfix<br>[root@gitlab-ce yum.repos.d]# systemctl enable postfix<br>[root@gitlab-ce yum.repos.d]# systemctl start postfix<br>//postfix将会向你发送通知邮件</p>
 <h1 id="五、添加gitlab软件库并安装软件包："><a href="#五、添加gitlab软件库并安装软件包：" class="headerlink" title="五、添加gitlab软件库并安装软件包："></a>五、添加gitlab软件库并安装软件包：</h1><p>[root@gitlab-ce yum.repos.d]# curl <a href="https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh|bash" target="_blank" rel="noopener">https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh|bash</a><br>[root@gitlab-ce yum.repos.d]# yum -y install gitlab-ce</p>
