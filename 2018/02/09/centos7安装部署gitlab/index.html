@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT, linux, centos ,macro" />
+  <meta name="keywords" content="centos,gitlab," />
 
 
 
@@ -79,16 +79,32 @@
 
 
 
-<meta name="description" content="记录运维成长路上每一点每一滴。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Macro&#39;s LinuxOps Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="一、gitlab简介：GitLab是利用Ruby On Rails开发的一个开源版本管理系统，实现了一个自托管的Git项目仓库，是集代码托管，测试，部署于一体的开源git仓库管理软件，可通过web界面来进行访问公开的或私人项目。与Github类似，GitLab能够浏览代码，管理缺陷和注释。可以管理团队对仓库的访问，它非常易于浏览提交过的版本，并提供一个文件历史库。它还提供一个代码片段收集功能可以轻">
+<meta name="keywords" content="centos,gitlab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="centos7安装部署gitlab">
+<meta property="og:url" content="http://yoursite.com/2018/02/09/centos7安装部署gitlab/index.html">
 <meta property="og:site_name" content="Macro&#39;s LinuxOps Blog">
-<meta property="og:description" content="记录运维成长路上每一点每一滴。">
+<meta property="og:description" content="一、gitlab简介：GitLab是利用Ruby On Rails开发的一个开源版本管理系统，实现了一个自托管的Git项目仓库，是集代码托管，测试，部署于一体的开源git仓库管理软件，可通过web界面来进行访问公开的或私人项目。与Github类似，GitLab能够浏览代码，管理缺陷和注释。可以管理团队对仓库的访问，它非常易于浏览提交过的版本，并提供一个文件历史库。它还提供一个代码片段收集功能可以轻">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/1.png">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/2.png">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/3.png">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/4.png">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/5.png">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/6.png">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/7.png">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/8.png">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/9.png">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/10.png">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/11.png">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/12.png">
+<meta property="og:image" content="http://yoursite.com/image/gitlab/13.png">
+<meta property="og:updated_time" content="2018-02-09T14:12:31.074Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Macro&#39;s LinuxOps Blog">
-<meta name="twitter:description" content="记录运维成长路上每一点每一滴。">
+<meta name="twitter:title" content="centos7安装部署gitlab">
+<meta name="twitter:description" content="一、gitlab简介：GitLab是利用Ruby On Rails开发的一个开源版本管理系统，实现了一个自托管的Git项目仓库，是集代码托管，测试，部署于一体的开源git仓库管理软件，可通过web界面来进行访问公开的或私人项目。与Github类似，GitLab能够浏览代码，管理缺陷和注释。可以管理团队对仓库的访问，它非常易于浏览提交过的版本，并提供一个文件历史库。它还提供一个代码片段收集功能可以轻">
+<meta name="twitter:image" content="http://yoursite.com/image/gitlab/1.png">
 
 
 
@@ -118,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/09/centos7安装部署gitlab/"/>
 
 
 
 
 
-  <title>Macro's LinuxOps Blog</title>
+  <title>centos7安装部署gitlab | Macro's LinuxOps Blog</title>
   
 
 
@@ -143,8 +159,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -227,9 +242,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -259,9 +274,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/09/centos7安装部署gitlab/" itemprop="url">centos7安装部署gitlab</a></h1>
+          <h1 class="post-title" itemprop="name headline">centos7安装部署gitlab</h1>
         
 
         <div class="post-meta">
@@ -342,9 +355,7 @@
       
 
       
-        
-          
-            <h1 id="一、gitlab简介："><a href="#一、gitlab简介：" class="headerlink" title="一、gitlab简介："></a>一、gitlab简介：</h1><p>GitLab是利用Ruby On Rails开发的一个开源版本管理系统，实现了一个自托管的Git项目仓库，是集代码托管，测试，部署于一体的开源git仓库管理软件，可通过web界面来进行访问公开的或私人项目。与Github类似，GitLab能够浏览代码，管理缺陷和注释。可以管理团队对仓库的访问，它非常易于浏览提交过的版本，并提供一个文件历史库。它还提供一个代码片段收集功能可以轻松实现代码复用，便于日后需要的时候查找。</p>
+        <h1 id="一、gitlab简介："><a href="#一、gitlab简介：" class="headerlink" title="一、gitlab简介："></a>一、gitlab简介：</h1><p>GitLab是利用Ruby On Rails开发的一个开源版本管理系统，实现了一个自托管的Git项目仓库，是集代码托管，测试，部署于一体的开源git仓库管理软件，可通过web界面来进行访问公开的或私人项目。与Github类似，GitLab能够浏览代码，管理缺陷和注释。可以管理团队对仓库的访问，它非常易于浏览提交过的版本，并提供一个文件历史库。它还提供一个代码片段收集功能可以轻松实现代码复用，便于日后需要的时候查找。</p>
 <h1 id="二、安装环境："><a href="#二、安装环境：" class="headerlink" title="二、安装环境："></a>二、安装环境：</h1><p>操作系统：CentOS Linux release 7.4.1708 (Core)<br>Gitlab 版本：gitlab-ce-10.3.3<br>安装方式：由于源代码的安装需要安装很多软件包在过程中可能会出错，所以此用官方推荐的omnibus软件包安装方式，Omnibus软件包更可靠的一个原因是它使用Runit重新启动任何GitLab进程以防万一崩溃。在大量使用的GitLab实例上，Sidekiq后台工作的内存使用量将随着时间的推移而增长。Omnibus软件包通过让Sidekiq如果使用太多内存而终止来解决这个问题。在这个终止之后，Runit会检测到Sidekiq有没有运行，如果没有会启动它。由于从源代码安装没有Runit，Sidekiq无法终止，其内存使用量将随着时间的推移而增长。</p>
 <h1 id="三、安装所有依赖软件："><a href="#三、安装所有依赖软件：" class="headerlink" title="三、安装所有依赖软件："></a>三、安装所有依赖软件：</h1><p>[root@gitlab-ce yum.repos.d]# yum install curl policycoreutils openssh-server openssl-clients<br>[root@gitlab-ce yum.repos.d]# systemctl enable sshd<br>[root@gitlab-ce yum.repos.d]# systemctl start sshd<br>[root@gitlab-ce yum.repos.d]# firewall-cmd —permanent —add-service=http //防火墙允许http访问<br>[root@gitlab-ce yum.repos.d]# systemmctl reload firewalld</p>
 <h1 id="四、安装postfix："><a href="#四、安装postfix：" class="headerlink" title="四、安装postfix："></a>四、安装postfix：</h1><p>[root@gitlab-ce yum.repos.d]# yum -y install postfix<br>[root@gitlab-ce yum.repos.d]# systemctl enable postfix<br>[root@gitlab-ce yum.repos.d]# systemctl start postfix<br>//postfix将会向你发送通知邮件</p>
@@ -382,8 +393,6 @@
 <p>fi</p>
 <p>#将脚本保存添加到定时任务执行:<br>[root@backup .ssh]# vim /etc/crontab<br>0 0 <em> </em> * root /data/script/bakgitlab.sh</p>
 
-          
-        
       
     </div>
     
@@ -398,324 +407,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/09/centos7安装部署redis-哨兵/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Macro">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Macro's LinuxOps Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/09/centos7安装部署redis-哨兵/" itemprop="url">centos7安装部署redis+哨兵</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-09T16:31:45+08:00">
-                2018-02-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/centos-gitlab/" rel="tag"># centos,gitlab</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2,371 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  10 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          <h1 id="主从复制："><a href="#主从复制：" class="headerlink" title="主从复制："></a>主从复制：</h1><p>Redis持久化保证了即使redis服务重启也不会丢失数据因为redis服务重启后会将硬盘上持久化的数据恢复到内存中但是当redis服务器的硬盘损坏了可能会导致数据丢失如果通过redis的主从复制机制就可以避免这种单点故障，说明主redis中的数据有两个副本replication即从slave1和从slave2即使一台redis服务器宕机其它两台redis服务也可以继续提供服务。</p>
-<h1 id="sentienl-哨兵："><a href="#sentienl-哨兵：" class="headerlink" title="sentienl 哨兵："></a>sentienl 哨兵：</h1><p>Sentinel（哨兵）是Redis 的高可用性解决方案：由一个或多个Sentinel 实例 组成的Sentinel 系统可以监视任意多个主服务器，以及这些主服务器属下的所有从服务器，并在被监视的主服务器进入下线状态时，自动将下线主服务器属下的某个从服务器升级为新的主服务器。<br>A、Master 状态监测<br>B、如果Master 异常，则会进行Master-slave 转换，将其中一个Slave作为Master，将之前的Master作为Slave<br>C、Master-Slave切换后，master_redis.conf、slave_redis.conf和sentinel.conf的内容都会发生改变，即master_redis.conf中会多一行slaveof的配置，sentinel.conf的监控目标会随之调换。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/09/centos7安装部署redis-哨兵/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/09/centos7安装部署redis-哨兵/" rel="next" title="centos7安装部署redis+哨兵">
+                <i class="fa fa-chevron-left"></i> centos7安装部署redis+哨兵
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/07/NewBlog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Macro">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Macro's LinuxOps Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/07/NewBlog/" itemprop="url">Macro's New Blog</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T21:34:09+08:00">
-                2018-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  59 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>大家好！我是Macro</p>
-<p>由于之前的博客服务器到期，所以暂停访问，现在已经将博客移至github上。</p>
-<p>接下来我会将博客暂停时写的文档上传，请大家留意~</p>
-<p>Qq:791903037</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -725,10 +446,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -736,6 +458,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -756,8 +482,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -822,6 +557,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、gitlab简介："><span class="nav-number">1.</span> <span class="nav-text">一、gitlab简介：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、安装环境："><span class="nav-number">2.</span> <span class="nav-text">二、安装环境：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、安装所有依赖软件："><span class="nav-number">3.</span> <span class="nav-text">三、安装所有依赖软件：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、安装postfix："><span class="nav-number">4.</span> <span class="nav-text">四、安装postfix：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、添加gitlab软件库并安装软件包："><span class="nav-number">5.</span> <span class="nav-text">五、添加gitlab软件库并安装软件包：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、配置gitlab配置文件："><span class="nav-number">6.</span> <span class="nav-text">六、配置gitlab配置文件：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七、访问http-172-16-72-186："><span class="nav-number">7.</span> <span class="nav-text">七、访问http://172.16.72.186：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八、设置gitlab发送邮件通知："><span class="nav-number">8.</span> <span class="nav-text">八、设置gitlab发送邮件通知：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#九、创建项目并上传代码："><span class="nav-number">9.</span> <span class="nav-text">九、创建项目并上传代码：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十、gitlab备份与恢复："><span class="nav-number">10.</span> <span class="nav-text">十、gitlab备份与恢复：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附录："><span class="nav-number">11.</span> <span class="nav-text">附录：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改存储路径："><span class="nav-number">12.</span> <span class="nav-text">修改存储路径：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改日志存放路径："><span class="nav-number">13.</span> <span class="nav-text">修改日志存放路径：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git常用命令："><span class="nav-number">14.</span> <span class="nav-text">git常用命令：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分布式备份："><span class="nav-number">15.</span> <span class="nav-text">分布式备份：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -955,6 +706,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

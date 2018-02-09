@@ -87,14 +87,14 @@
 <meta property="og:site_name" content="Macro&#39;s LinuxOps Blog">
 <meta property="og:description" content="主从复制：Redis持久化保证了即使redis服务重启也不会丢失数据因为redis服务重启后会将硬盘上持久化的数据恢复到内存中但是当redis服务器的硬盘损坏了可能会导致数据丢失如果通过redis的主从复制机制就可以避免这种单点故障，说明主redis中的数据有两个副本replication即从slave1和从slave2即使一台redis服务器宕机其它两台redis服务也可以继续提供服务。 sen">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/image/1.png">
-<meta property="og:image" content="http://yoursite.com/image/2.png">
-<meta property="og:image" content="http://yoursite.com/image/3.png">
-<meta property="og:updated_time" content="2018-02-09T08:48:32.369Z">
+<meta property="og:image" content="http://yoursite.com/image/redis/1.png">
+<meta property="og:image" content="http://yoursite.com/image/redis/2.png">
+<meta property="og:image" content="http://yoursite.com/image/redis/3.png">
+<meta property="og:updated_time" content="2018-02-09T13:39:29.912Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos7安装部署redis+哨兵">
 <meta name="twitter:description" content="主从复制：Redis持久化保证了即使redis服务重启也不会丢失数据因为redis服务重启后会将硬盘上持久化的数据恢复到内存中但是当redis服务器的硬盘损坏了可能会导致数据丢失如果通过redis的主从复制机制就可以避免这种单点故障，说明主redis中的数据有两个副本replication即从slave1和从slave2即使一台redis服务器宕机其它两台redis服务也可以继续提供服务。 sen">
-<meta name="twitter:image" content="http://yoursite.com/image/1.png">
+<meta name="twitter:image" content="http://yoursite.com/image/redis/1.png">
 
 
 
@@ -368,11 +368,11 @@ INSTALL install
 <p>[root@redis-slave1 redis-4.0.1]# ./src/redis-server redis.conf<br>1030:C 03 Jan 15:47:46.894 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo<br>1030:C 03 Jan 15:47:46.894 # Redis version=4.0.1, bits=64, commit=00000000, modified=0, pid=1030, just started<br>1030:C 03 Jan 15:47:46.894 # Configuration loaded</p>
 <p>[root@redis-slave2 redis-4.0.1]# ./src/redis-server redis.conf<br>1058:C 03 Jan 15:49:24.842 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo<br>1058:C 03 Jan 15:49:24.842 # Redis version=4.0.1, bits=64, commit=00000000, modified=0, pid=1058, just started<br>1058:C 03 Jan 15:49:24.842 # Configuration loaded</p>
 <p>[root@redis-master redis-4.0.1]# ./src/redis-cli<br>127.0.0.1:6379&gt; info<br>//通过info查看状态，输出以上信息即主从以完成配置</p>
-<p>1.5、测试主从复制功能；<br><img src="/image/1.png" alt="&quot;1.png&quot;"><br>//通过以上图片不难发现在主库上设置一个test的键值，在从库检查发现在主库上设置的键值已经同步到了从库，到此为止主从复制就已经配置完成了。</p>
+<p>1.5、测试主从复制功能；<br><img src="/image/redis/1.png" alt="&quot;1.png&quot;"><br>//通过以上图片不难发现在主库上设置一个test的键值，在从库检查发现在主库上设置的键值已经同步到了从库，到此为止主从复制就已经配置完成了。</p>
 <h1 id="2、Sentinel-哨兵"><a href="#2、Sentinel-哨兵" class="headerlink" title="2、Sentinel 哨兵"></a>2、Sentinel 哨兵</h1><p>2.1、配置三台哨兵同时修改sentinel.conf ；<br>[root@redis-sentinel redis-4.0.1]# vim sentinel.conf<br>将sentinel monitor mymaster 127.0.0.1 6379 2<br>修改为：sentinel monitor mymaster 172.16.47.10 6379 2<br>mymaster //监控名称  127.0.0.1 //监控ip  6379 //端口 2 //挂了几台后重新选举master<br>protected-mode no //关闭保护模式（默认是yes）<br>sentinel auth-pass mymaster 123456</p>
-<p>2.2、查看哨兵的状态；<br>[root@redis-master redis-4.0.1]# ./src/redis-cli -h 172.16.47.11 -p 26379 info sentinel<br>Sentinel<br>sentinel_masters:1<br>sentinel_tilt:0<br>sentinel_running_scripts:0<br>sentinel_scripts_queue_length:0<br>sentinel_simulate_failure_flags:0<br>master0:name=mymaster,status=ok,address=172.16.47.10:6379,slaves=2,sentinels=3<br><img src="/image/2.png" alt="&quot;2.png&quot;"><br>//通过上面的信息发现哨兵已经启用了</p>
+<p>2.2、查看哨兵的状态；<br>[root@redis-master redis-4.0.1]# ./src/redis-cli -h 172.16.47.11 -p 26379 info sentinel<br>Sentinel<br>sentinel_masters:1<br>sentinel_tilt:0<br>sentinel_running_scripts:0<br>sentinel_scripts_queue_length:0<br>sentinel_simulate_failure_flags:0<br>master0:name=mymaster,status=ok,address=172.16.47.10:6379,slaves=2,sentinels=3<br><img src="/image/redis/2.png" alt="&quot;2.png&quot;"><br>//通过上面的信息发现哨兵已经启用了</p>
 <p>2.3、测试关闭master和slave1后，哨兵会不会选出新的master；<br>[root@redis-master redis-4.0.1]# ./src/redis-cli -a 123456 shutdown<br>[root@redis-slave1 redis-4.0.1]# ./src/redis-cli -a 123456 shutdown<br>//通过观察状态，在我们关闭master和slave1后，哨兵为我们选取出新的master</p>
-<p><img src="/image/3.png" alt="&quot;3.png&quot;"><br>//在slave2这台机器上发现已经从从库变成了主库，到此哨兵的配置就完成了；</p>
+<p><img src="/image/redis/3.png" alt="&quot;3.png&quot;"><br>//在slave2这台机器上发现已经从从库变成了主库，到此哨兵的配置就完成了；</p>
 <h1 id="附录："><a href="#附录：" class="headerlink" title="附录："></a>附录：</h1><h1 id="内存释放机制："><a href="#内存释放机制：" class="headerlink" title="内存释放机制："></a>内存释放机制：</h1><p>noeviction：当内存使用达到阈值的时候，所有引起申请内存的命令会报错。//默认值<br>allkeys-lru：在主键空间中，优先移除最近未使用的key。<br>volatile-lru：在设置了过期时间的键空间中，优先移除最近未使用的key。<br>allkeys-random：在主键空间中，随机移除某个key。<br>volatile-random：在设置了过期时间的键空间中，随机移除某个key。<br>volatile-ttl：在设置了过期时间的键空间中，具有更早过期时间的key优先移除。</p>
 <h1 id="数据备份与恢复"><a href="#数据备份与恢复" class="headerlink" title="数据备份与恢复"></a>数据备份与恢复</h1><p>1.启动redis<br>进入redis目录<br>redis-cli -a 123456<br>2.数据备份<br>redis 127.0.0.1:6379&gt; SAVE  //一般情况下不会使用save，因为在save会造成阻塞save操作在Redis主线程中工作，因此会阻塞其他请求操作，应该避免使用<br>该命令将在 redis 备份目录中创建dump.rdb文件。<br>3.恢复数据<br>1、获取备份目录<br>redis 127.0.0.1:6379&gt; CONFIG GET dir<br>1) “dir”<br>2) “/home/macro/tools/redis-4.01/bin”　　　<br>以上命令 CONFIG GET dir 输出的 redis 备份目录为 /home/macro/tools/redis-4.01/bin。<br>2、停止redis服务<br>3、拷贝备份文件到 /home/macro/tools/redis-4.01/bin目录下<br>4、重新启动redis服务</p>
 <h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><h1 id="RDB持久化方式："><a href="#RDB持久化方式：" class="headerlink" title="RDB持久化方式："></a>RDB持久化方式：</h1><p>默认redis是会以快照的形式将数据持久化到磁盘的（一个二进制文件，dump.rdb，这个文件名字可以指定），在配置文件中的格式是：save N M表示在N秒之内，redis至少发生M次修改则redis抓快照到磁盘。当然我们也可以手动执行save或者bgsave（异步）做快照。<br>当redis需要做持久化时，redis会fork一个子进程；子进程将数据写到磁盘上一个临时RDB文件中；当子进程完成写临时文件后，将原来的RDB替换掉，这样的好处就是可以copy-on-write</p>
@@ -417,6 +417,10 @@ INSTALL install
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/09/centos7安装部署gitlab/" rel="prev" title="centos7安装部署gitlab">
+                centos7安装部署gitlab <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -493,7 +497,7 @@ INSTALL install
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -506,7 +510,7 @@ INSTALL install
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
