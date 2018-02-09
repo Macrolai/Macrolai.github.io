@@ -89,7 +89,7 @@
 <meta property="og:image" content="http://yoursite.com/image/1.png">
 <meta property="og:image" content="http://yoursite.com/image/2.png">
 <meta property="og:image" content="http://yoursite.com/image/3.png">
-<meta property="og:updated_time" content="2018-02-09T08:33:14.444Z">
+<meta property="og:updated_time" content="2018-02-09T08:38:46.240Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos7安装部署redis+哨兵">
 <meta name="twitter:description" content="主从复制：Redis持久化保证了即使redis服务重启也不会丢失数据因为redis服务重启后会将硬盘上持久化的数据恢复到内存中但是当redis服务器的硬盘损坏了可能会导致数据丢失如果通过redis的主从复制机制就可以避免这种单点故障，说明主redis中的数据有两个副本replication即从slave1和从slave2即使一台redis服务器宕机其它两台redis服务也可以继续提供服务。 sen">
@@ -356,7 +356,7 @@
       
         <p>主从复制：<br>Redis持久化保证了即使redis服务重启也不会丢失数据因为redis服务重启后会将硬盘上持久化的数据恢复到内存中但是当redis服务器的硬盘损坏了可能会导致数据丢失如果通过redis的主从复制机制就可以避免这种单点故障，说明主redis中的数据有两个副本replication即从slave1和从slave2即使一台redis服务器宕机其它两台redis服务也可以继续提供服务。</p>
 <p>sentienl 哨兵：<br>Sentinel（哨兵）是Redis 的高可用性解决方案：由一个或多个Sentinel 实例 组成的Sentinel 系统可以监视任意多个主服务器，以及这些主服务器属下的所有从服务器，并在被监视的主服务器进入下线状态时，自动将下线主服务器属下的某个从服务器升级为新的主服务器。<br>A、Master 状态监测<br>B、如果Master 异常，则会进行Master-slave 转换，将其中一个Slave作为Master，将之前的Master作为Slave<br>C、Master-Slave切换后，master_redis.conf、slave_redis.conf和sentinel.conf的内容都会发生改变，即master_redis.conf中会多一行slaveof的配置，sentinel.conf的监控目标会随之调换。</p>
-<p>p划分：</p>
+<p>ip划分：</p>
 <p>Redis-master:172.16.47.10<br>Redis -slave1:172.16.47.20<br>Redis -slave2:172.16.47.30</p>
 <p>Redis-sentinel1:172.16.47.11<br>Redis-sentinel2:172.16.47.21<br>Redis-sentinel3:172.16.47.31</p>
 <p>1、redis主从复制<br>1.1、准备三台安装好了redis的机器，或者单机多实例也可以；（以下操作可同时在三台机器上执行）<br>[root@redis-master ~]# mkdir -p /home/macro/tools<br>[root@redis-master ~]# yum -y install gcc gcc-c++<br>[root@redis-master ~]# cd /home/macro/tools<br>[root@redis-master tools]# wget <a href="http://download.redis.io/releases/redis-4.0.1.tar.gz" target="_blank" rel="noopener">http://download.redis.io/releases/redis-4.0.1.tar.gz</a><br>[root@redis-master tools]# ls<br>redis-4.0.1.tar.gz<br>[root@redis-master tools]# tar -zxf redis-4.0.1.tar.gz<br>[root@redis-master tools]# cd redis-4.0.1<br>[root@redis-master redis-4.0.1]# make &amp;&amp; make install</p>
@@ -388,6 +388,7 @@ INSTALL install
 <p>持久化<br>RDB持久化方式：<br>默认redis是会以快照的形式将数据持久化到磁盘的（一个二进制文件，dump.rdb，这个文件名字可以指定），在配置文件中的格式是：save N M表示在N秒之内，redis至少发生M次修改则redis抓快照到磁盘。当然我们也可以手动执行save或者bgsave（异步）做快照。<br>当redis需要做持久化时，redis会fork一个子进程；子进程将数据写到磁盘上一个临时RDB文件中；当子进程完成写临时文件后，将原来的RDB替换掉，这样的好处就是可以copy-on-write</p>
 <p>AOF持久化方式：<br>开启AOF持久化后，你所执行的每一条指令，都会被记录到appendonly.aof文件中。但事实上，并不会立即将命令写入到硬盘文件中，而是写入到硬盘缓存，在接下来的策略中，配置多久来从硬盘缓存写入到硬盘文件。所以在一定程度一定条件下，还是会有数据丢失，不过你可以大大减少数据损失。redis默认使用everysec，就是说每秒持久化一次，而always则是每次操作都会立即写入aof文件中。而no则是不主动进行同步操作，是默认30s一次。当然always一定是效率最低的，个人认为everysec就够用了，数据安全性能又高。Redis也允许我们同时使用两种方式，再重启redis后会从aof中恢复数据，因为aof比rdb数据损失小嘛。</p>
 <p>appendonly yes //开启AOF持久化，默认为no<br>appendfsync always //每次有数据修改发生时都会写入AOF文件。<br>appendfsync everysec //每秒钟同步一次，该策略为AOF的缺省策略。<br>appendfsync no //从不同步。高效但是数据不会被持久化。<br>二者选择的标准，就是看系统是愿意牺牲一些性能，换取更高的缓存一致性（aof），还是愿意写操作频繁的时候，不启用备份来换取更高的性能，待手动运行save的时候，再做备份（rdb）</p>
+<a id="more"></a>
 
       
     </div>
