@@ -343,7 +343,7 @@
 
       
         
-          <h1 id="rabbitmq简介："><a href="#rabbitmq简介：" class="headerlink" title="rabbitmq简介："></a>rabbitmq简介：</h1><p>#Queue（队列）<br>消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。</p>
+          <h1 id="rabbitmq简介："><a href="#rabbitmq简介：" class="headerlink" title="rabbitmq简介："></a>rabbitmq简介：</h1><h1 id="Queue（队列）"><a href="#Queue（队列）" class="headerlink" title="Queue（队列）"></a>Queue（队列）</h1><p>消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。</p>
 <pre><code>1.    设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失
 2.    设置为临时队列，queue中的数据在系统重启之后就会丢失
 3.    设置为自动删除的队列，当不存在用户连接到server，队列中的数据会被自动删除

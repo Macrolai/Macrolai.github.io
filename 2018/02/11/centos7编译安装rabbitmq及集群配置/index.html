@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="rabbitmq简介：#Queue（队列）消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。 1.    设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失 2.    设置为临时队列，queue中的数据在系统重启之后就会丢失 3.    设置为自动删除的队列，当不存在用户连接到">
+<meta name="description" content="rabbitmq简介：Queue（队列）消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。 1.    设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失 2.    设置为临时队列，queue中的数据在系统重启之后就会丢失 3.    设置为自动删除的队列，当不存在用户连接到s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="centos7编译安装rabbitmq及集群配置">
 <meta property="og:url" content="http://yoursite.com/2018/02/11/centos7编译安装rabbitmq及集群配置/index.html">
 <meta property="og:site_name" content="Macro&#39;s LinuxOps Blog">
-<meta property="og:description" content="rabbitmq简介：#Queue（队列）消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。 1.    设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失 2.    设置为临时队列，queue中的数据在系统重启之后就会丢失 3.    设置为自动删除的队列，当不存在用户连接到">
+<meta property="og:description" content="rabbitmq简介：Queue（队列）消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。 1.    设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失 2.    设置为临时队列，queue中的数据在系统重启之后就会丢失 3.    设置为自动删除的队列，当不存在用户连接到s">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/image/rabbitmq/1.png">
 <meta property="og:image" content="http://yoursite.com/image/rabbitmq/2.png">
@@ -92,10 +92,10 @@
 <meta property="og:image" content="http://yoursite.com/image/rabbitmq/5.png">
 <meta property="og:image" content="http://yoursite.com/image/rabbitmq/7.png">
 <meta property="og:image" content="http://yoursite.com/image/rabbitmq/8.png">
-<meta property="og:updated_time" content="2018-02-11T09:35:01.235Z">
+<meta property="og:updated_time" content="2018-02-11T09:54:43.544Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos7编译安装rabbitmq及集群配置">
-<meta name="twitter:description" content="rabbitmq简介：#Queue（队列）消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。 1.    设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失 2.    设置为临时队列，queue中的数据在系统重启之后就会丢失 3.    设置为自动删除的队列，当不存在用户连接到">
+<meta name="twitter:description" content="rabbitmq简介：Queue（队列）消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。 1.    设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失 2.    设置为临时队列，queue中的数据在系统重启之后就会丢失 3.    设置为自动删除的队列，当不存在用户连接到s">
 <meta name="twitter:image" content="http://yoursite.com/image/rabbitmq/1.png">
 
 
@@ -347,7 +347,7 @@
       
 
       
-        <h1 id="rabbitmq简介："><a href="#rabbitmq简介：" class="headerlink" title="rabbitmq简介："></a>rabbitmq简介：</h1><p>#Queue（队列）<br>消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。</p>
+        <h1 id="rabbitmq简介："><a href="#rabbitmq简介：" class="headerlink" title="rabbitmq简介："></a>rabbitmq简介：</h1><h1 id="Queue（队列）"><a href="#Queue（队列）" class="headerlink" title="Queue（队列）"></a>Queue（队列）</h1><p>消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。</p>
 <pre><code>1.    设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失
 2.    设置为临时队列，queue中的数据在系统重启之后就会丢失
 3.    设置为自动删除的队列，当不存在用户连接到server，队列中的数据会被自动删除
@@ -557,7 +557,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rabbitmq简介："><span class="nav-number">1.</span> <span class="nav-text">rabbitmq简介：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Exchange"><span class="nav-number">2.</span> <span class="nav-text">Exchange</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Binding"><span class="nav-number">3.</span> <span class="nav-text">Binding</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#virtual-host"><span class="nav-number">4.</span> <span class="nav-text">virtual host</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通讯过程"><span class="nav-number">5.</span> <span class="nav-text">通讯过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装依赖关系文件："><span class="nav-number">6.</span> <span class="nav-text">安装依赖关系文件：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装erlang语言环境："><span class="nav-number">7.</span> <span class="nav-text">安装erlang语言环境：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置erlang环境变量："><span class="nav-number">8.</span> <span class="nav-text">配置erlang环境变量：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装RabbitMQ："><span class="nav-number">9.</span> <span class="nav-text">安装RabbitMQ：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置网页插件："><span class="nav-number">10.</span> <span class="nav-text">配置网页插件：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加账号配置访问权限："><span class="nav-number">11.</span> <span class="nav-text">添加账号配置访问权限：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rabbitma集群配置："><span class="nav-number">12.</span> <span class="nav-text">Rabbitma集群配置：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置hosts（两台机器同时配置）："><span class="nav-number">13.</span> <span class="nav-text">配置hosts（两台机器同时配置）：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rabbitmq配置："><span class="nav-number">14.</span> <span class="nav-text">Rabbitmq配置：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rabbitmq01配置："><span class="nav-number">15.</span> <span class="nav-text">Rabbitmq01配置：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附录："><span class="nav-number">16.</span> <span class="nav-text">附录：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rabbitmq简介："><span class="nav-number">1.</span> <span class="nav-text">rabbitmq简介：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Queue（队列）"><span class="nav-number">2.</span> <span class="nav-text">Queue（队列）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Exchange"><span class="nav-number">3.</span> <span class="nav-text">Exchange</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Binding"><span class="nav-number">4.</span> <span class="nav-text">Binding</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#virtual-host"><span class="nav-number">5.</span> <span class="nav-text">virtual host</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通讯过程"><span class="nav-number">6.</span> <span class="nav-text">通讯过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装依赖关系文件："><span class="nav-number">7.</span> <span class="nav-text">安装依赖关系文件：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装erlang语言环境："><span class="nav-number">8.</span> <span class="nav-text">安装erlang语言环境：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置erlang环境变量："><span class="nav-number">9.</span> <span class="nav-text">配置erlang环境变量：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装RabbitMQ："><span class="nav-number">10.</span> <span class="nav-text">安装RabbitMQ：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置网页插件："><span class="nav-number">11.</span> <span class="nav-text">配置网页插件：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加账号配置访问权限："><span class="nav-number">12.</span> <span class="nav-text">添加账号配置访问权限：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rabbitma集群配置："><span class="nav-number">13.</span> <span class="nav-text">Rabbitma集群配置：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置hosts（两台机器同时配置）："><span class="nav-number">14.</span> <span class="nav-text">配置hosts（两台机器同时配置）：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rabbitmq配置："><span class="nav-number">15.</span> <span class="nav-text">Rabbitmq配置：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rabbitmq01配置："><span class="nav-number">16.</span> <span class="nav-text">Rabbitmq01配置：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附录："><span class="nav-number">17.</span> <span class="nav-text">附录：</span></a></li></ol></div>
             
 
           </div>
