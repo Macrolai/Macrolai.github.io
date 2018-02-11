@@ -343,16 +343,18 @@
 
       
         
-          <p>#rabbitmq简介：</p>
-<p>#Queue（队列）<br>消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。<br>1.设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失<br>2.设置为临时队列，queue中的数据在系统重启之后就会丢失<br>3.设置为自动删除的队列，当不存在用户连接到server，队列中的数据会被自动删除</p>
-<p>#Exchange<br>Exchange类似于数据通信网络中的交换机，提供消息路由策略。rabbitmq中，producer不是通过信道直接将消息发送给queue，而是先发送给Exchange。一个Exchange可以和多个Queue进行绑定，producer在传递消息的时候，会传递一个ROUTING_KEY，Exchange会根据这个ROUTING_KEY按照特定的路由算法，将消息路由给指定的queue。和Queue一样，Exchange也可设置为持久化，临时或者自动删除。<br>Exchange有4种类型：direct(默认)，fanout, topic, 和headers，不同类型的Exchange转发消息的策略有所区别：</p>
+          <h1 id="rabbitmq简介："><a href="#rabbitmq简介：" class="headerlink" title="rabbitmq简介："></a>rabbitmq简介：</h1><p>#Queue（队列）<br>消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。</p>
+<pre><code>1.    设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失
+2.    设置为临时队列，queue中的数据在系统重启之后就会丢失
+3.    设置为自动删除的队列，当不存在用户连接到server，队列中的数据会被自动删除
+</code></pre><h1 id="Exchange"><a href="#Exchange" class="headerlink" title="Exchange"></a>Exchange</h1><p>Exchange类似于数据通信网络中的交换机，提供消息路由策略。rabbitmq中，producer不是通过信道直接将消息发送给queue，而是先发送给Exchange。一个Exchange可以和多个Queue进行绑定，producer在传递消息的时候，会传递一个ROUTING_KEY，Exchange会根据这个ROUTING_KEY按照特定的路由算法，将消息路由给指定的queue。和Queue一样，Exchange也可设置为持久化，临时或者自动删除。<br>Exchange有4种类型：direct(默认)，fanout, topic, 和headers，不同类型的Exchange转发消息的策略有所区别：</p>
 <pre><code>1.    Direct 直接交换器，工作方式类似于单播，Exchange会将消息发送完全匹配ROUTING_KEY的Queue
 2.    fanout 广播是式交换器，不管消息的ROUTING_KEY设置为什么，Exchange都会将消息转发给所有绑定的Queue。
 3.    topic 主题交换器，工作方式类似于组播，Exchange会将消息转发和ROUTING_KEY匹配模式相同的所有队列，比如，ROUTING_KEY为user.stock的Message会转发给绑定匹配模式为 * .stock,user.stock， * . * 和#.user.stock.#的队列。（ * 表是匹配一个任意词组，#表示匹配0个或多个词组）
 4.    headers 消息体的header匹配（ignore）
-</code></pre><p>#Binding<br>所谓绑定就是将一个特定的 Exchange 和一个特定的 Queue 绑定起来。Exchange 和Queue的绑定可以是多对多的关系。</p>
+</code></pre><h1 id="Binding"><a href="#Binding" class="headerlink" title="Binding"></a>Binding</h1><p>所谓绑定就是将一个特定的 Exchange 和一个特定的 Queue 绑定起来。Exchange 和Queue的绑定可以是多对多的关系。</p>
 <p>#virtual host<br>在rabbitmq server上可以创建多个虚拟的message broker，又叫做virtual hosts (vhosts)。每一个vhost本质上是一个mini-rabbitmq server，分别管理各自的exchange，和bindings。vhost相当于物理的server，可以为不同app提供边界隔离，使得应用安全的运行在不同的vhost实例上，相互之间不会干扰。producer和consumer连接rabbit server需要指定一个vhost。</p>
-<p>#通讯过程<br>假设P1和C1注册了相同的Broker，Exchange和Queue。P1发送的消息最终会被C1消费。基本的通信流程大概如下所示：</p>
+<h1 id="通讯过程"><a href="#通讯过程" class="headerlink" title="通讯过程"></a>通讯过程</h1><p>假设P1和C1注册了相同的Broker，Exchange和Queue。P1发送的消息最终会被C1消费。基本的通信流程大概如下所示：</p>
 <pre><code>1.    P1生产消息，发送给服务器端的Exchange
 2.    Exchange收到消息，根据ROUTINKEY，将消息转发给匹配的Queue1
 3.    Queue1收到消息，将消息发送给订阅者C1
