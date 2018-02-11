@@ -79,16 +79,24 @@
 
 
 
-<meta name="description" content="记录运维成长路上每一点每一滴。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Macro&#39;s LinuxOps Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="#rabbitmq简介： #Queue（队列）消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。1.设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失2.设置为临时队列，queue中的数据在系统重启之后就会丢失3.设置为自动删除的队列，当不存在用户连接到server，队列中的数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="centos7编译安装rabbitmq及集群配置">
+<meta property="og:url" content="http://yoursite.com/2018/02/11/centos7编译安装rabbitmq及集群配置/index.html">
 <meta property="og:site_name" content="Macro&#39;s LinuxOps Blog">
-<meta property="og:description" content="记录运维成长路上每一点每一滴。">
+<meta property="og:description" content="#rabbitmq简介： #Queue（队列）消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。1.设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失2.设置为临时队列，queue中的数据在系统重启之后就会丢失3.设置为自动删除的队列，当不存在用户连接到server，队列中的数据">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/image/rabbitmq/1.png">
+<meta property="og:image" content="http://yoursite.com/image/rabbitmq/2.png">
+<meta property="og:image" content="http://yoursite.com/image/rabbitmq/3.png">
+<meta property="og:image" content="http://yoursite.com/image/rabbitmq/5.png">
+<meta property="og:image" content="http://yoursite.com/image/rabbitmq/7.png">
+<meta property="og:image" content="http://yoursite.com/image/rabbitmq/8.png">
+<meta property="og:updated_time" content="2018-02-11T09:28:05.263Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Macro&#39;s LinuxOps Blog">
-<meta name="twitter:description" content="记录运维成长路上每一点每一滴。">
+<meta name="twitter:title" content="centos7编译安装rabbitmq及集群配置">
+<meta name="twitter:description" content="#rabbitmq简介： #Queue（队列）消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。1.设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失2.设置为临时队列，queue中的数据在系统重启之后就会丢失3.设置为自动删除的队列，当不存在用户连接到server，队列中的数据">
+<meta name="twitter:image" content="http://yoursite.com/image/rabbitmq/1.png">
 
 
 
@@ -118,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/11/centos7编译安装rabbitmq及集群配置/"/>
 
 
 
 
 
-  <title>Macro's LinuxOps Blog</title>
+  <title>centos7编译安装rabbitmq及集群配置 | Macro's LinuxOps Blog</title>
   
 
 
@@ -143,8 +151,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -227,9 +234,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -259,9 +266,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/11/centos7编译安装rabbitmq及集群配置/" itemprop="url">centos7编译安装rabbitmq及集群配置</a></h1>
+          <h1 class="post-title" itemprop="name headline">centos7编译安装rabbitmq及集群配置</h1>
         
 
         <div class="post-meta">
@@ -342,8 +347,7 @@
       
 
       
-        
-          <p>#rabbitmq简介：</p>
+        <p>#rabbitmq简介：</p>
 <p>#Queue（队列）<br>消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。<br>1.设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失<br>2.设置为临时队列，queue中的数据在系统重启之后就会丢失<br>3.设置为自动删除的队列，当不存在用户连接到server，队列中的数据会被自动删除</p>
 <p>#Exchange<br>Exchange类似于数据通信网络中的交换机，提供消息路由策略。rabbitmq中，producer不是通过信道直接将消息发送给queue，而是先发送给Exchange。一个Exchange可以和多个Queue进行绑定，producer在传递消息的时候，会传递一个ROUTING_KEY，Exchange会根据这个ROUTING_KEY按照特定的路由算法，将消息路由给指定的queue。和Queue一样，Exchange也可设置为持久化，临时或者自动删除。<br>Exchange有4种类型：direct(默认)，fanout, topic, 和headers，不同类型的Exchange转发消息的策略有所区别：</p>
 <pre><code>1.    Direct 直接交换器，工作方式类似于单播，Exchange会将消息发送完全匹配ROUTING_KEY的Queue
@@ -363,15 +367,26 @@
 2.    如果cosumer接受了消息, 但在发送ack之前断开连接，rabbitmq会认为这条消息没有被deliver,在consumer在次连接的时候，这条消息会被redeliver。
 3.    如果consumer接受了消息，但是程序中有bug,忘记了ack,rabbitmq不会重复发送消息。
 4.    rabbitmq2.0.0和之后的版本支持consumer reject某条（类）消息，可以通过设置requeue参数中的reject为true达到目地，那么rabbitmq将会把消息发送给下一个注册的consumer。
-</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/11/centos7编译安装rabbitmq及集群配置/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+</code></pre><a id="more"></a>
+<p>#安装依赖关系文件：<br>yum -y install gcc glibc-devel make ncurses-devel openssl-devel xmlto perl</p>
+<p>#安装erlang语言环境：<br>下载安装<br>wget <a href="http://www.erlang.org/download/otp_src_20.1.tar.gz" target="_blank" rel="noopener">http://www.erlang.org/download/otp_src_20.1.tar.gz</a> //下载<br>tar -xzvf otp_src_20.1.tar.gz //解压<br>cd otp_src_20.1/ //进入安装目录<br>./configure —prefix=/usr/local/erlang //初始化<br>make &amp;&amp; make install //编译安装</p>
+<p>#配置erlang环境变量：<br>vi /etc/profile  //在底部添加以下内容<br>    ERL_HOME=/usr/local/erlang<br>    PATH=$ERL_HOME/bin:$PATH<br>    export ERL_HOME PATH</p>
+<p>source /etc/profile  //生效</p>
+<p>erl  //如果进入erlang的shell则证明安装成功，退出即可</p>
+<p>#安装RabbitMQ：<br>下载安装：<br>cd /home/macro/tools  //切换到计划安装RabbitMQ的目录，我这里放在/home/macro/tools<br>wget <a href="http://www.rabbitmq.com/releases/rabbitmq-server/v3.7.2/rabbitmq-server-generic-unix-3.7.2.tar.xz" target="_blank" rel="noopener">http://www.rabbitmq.com/releases/rabbitmq-server/v3.7.2/rabbitmq-server-generic-unix-3.7.2.tar.xz</a>  //下载RabbitMQ安装包<br>xz -d rabbitmq-server-generic-unix-3.7.2.tar.xz<br>tar -xvf rabbitmq-server-generic-unix-3.7.2.tar</p>
+<p>启动服务<br>cd /home/macro/tools/rabbitmq_server-3.7.2/sbin/  //切换到启动文件目录<br>./rabbitmq-server -detached //启动rabbitmq，-detached是以后台守护进程方式启动<br>./rabbitmqctl status //查看rabbitmq状态<br><img src="/image/rabbitmq/1.png" alt="&quot;1.png&quot;"><br>//输出以上信息即正确<br>启动服务：rabbitmq-server -detached【 /home/macro/tools/rabbitmq_server-3.7.2/sbin/rabbitmq-server  -detached 】<br>查看状态：rabbitmqctl status【 /home/macro/tools/rabbitmq_server-3.7.2/sbin/rabbitmqctl status  】<br>关闭服务：rabbitmqctl stop【 /home/macro/tools/rabbitmq_server-3.7.2/sbin/rabbitmqctl stop  】<br>列出角色：rabbitmqctl list_users 【 /home/macro/tools/rabbitmq_server-3.7.2/sbin/abbitmqctl list_users 】</p>
+<p>#配置网页插件：<br>首先创建目录，否则可能会出错：<br>mkdir /etc/rabbitmq</p>
+<p>然后启用插件:<br>cd /home/macro/tools/rabbitmq_server-3.7.2/sbin/  //切换到启动文件目录<br>./rabbitmq-plugins enable rabbitmq_management //启动网页插件<br><img src="/image/rabbitmq/2.png" alt="&quot;2.png&quot;"><br>//输入以上信息即启动成功</p>
+<p>#添加账号配置访问权限：<br>rabbitmqctl add_user macro macro //添加用户，后面两个参数分别是用户名和密码<br>rabbitmqctl set_permissions -p / macro “.<em>“ “.</em>“ “.*”  //添加权限<br>rabbitmqctl set_user_tags macro administrator  //修改用户角色</p>
+<p>//现在你在浏览器中输入服务器IP:15672 就可以看到RabbitMQ的WEB管理页面了<br>利用刚添加到管理员账号登陆rabbitmq：<br><img src="/image/rabbitmq/3.png" alt="&quot;4.png&quot;"></p>
+<p>删除guest账户：<br><img src="/image/rabbitmq/5.png" alt="&quot;5.png&quot;"></p>
+<p>大功告成，rabbitmq安装就到此为止结束了。</p>
+<p>#Rabbitma集群配置：<br>172.16.47.172        rabbitmq<br>172.16.47.173        rabbitmq01</p>
+<p>#配置hosts（两台机器同时配置）：<br>vi /etc/hosts<br>    172.16.47.172        rabbitmq<br>    172.16.47.173        rabbitmq01</p>
+<p>#Rabbitmq配置：<br>cd /home/macro/tools/rabbitmq_server-3.7.2/sbin //切换到启动文件目录<br>./rabbitmqctl stop_app<br>./rabbitmqctl start_app</p>
+<p>#Rabbitmq01配置：<br>cd /home/macro/tools/rabbitmq_server-3.7.2/sbin //切换到启动文件目录<br>./rabbitmq-server -detached //启动rabbitmq    ，以后台守护进程方式启动<br>./rabbitmqctl stop_app<br>./rabbitmqctl cluster_join —disc rabbit@rabbitmq //以磁盘模式加入集群，rabbitmq为主机hosts<br>./rabbitmqctl start_app<br>./rabbitmqctl cluster_status<br><img src="/image/rabbitmq/7.png" alt="&quot;7.png&quot;"><br><img src="/image/rabbitmq/8.png" alt="&quot;8.png&quot;"><br>//通过以上信息发现已经将rabbitmq01加入了集群</p>
+<p>#附录：<br>内存控制：<br>vm_memory_high_watermark 该值为内存阈值，默认为0.4。意思为物理内存的40%。40%的内存并不是内存的最大的限制，它是一个发布的节制，当达到40%时Erlang会做GC。最坏的情况是使用内存80%。如果把该值配置为0，将关闭所有的publishing 。<br>rabbitmqctl set_vm_memory_high_watermark 0<br>Paging 内存阈值，该值为默认为0.5，该值为vm_memory_high_watermark的20%时，将把内存数据写到磁盘。<br>如机器内存16G，当RABBITMQ占用内存1.28G（16<em>0.4</em>0.2）时把内存数据放到磁盘。<br>硬盘控制：<br>当RabbitMQ的磁盘空闲空间小于50M（默认），生产者将被BLOCK,如果采用集群模式，磁盘节点空闲空间小于50M将导致其他节点的生产者都被block<br>可以通过disk_free_limit来对进行配置</p>
+
       
     </div>
     
@@ -388,168 +403,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/09/centos7安装部署gitlab/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Macro">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Macro's LinuxOps Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/09/centos7安装部署gitlab/" itemprop="url">centos7安装部署gitlab</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-09T21:53:21+08:00">
-                2018-02-09
-              </time>
+              <a href="/2018/02/09/centos7安装部署gitlab/" rel="next" title="centos7安装部署gitlab">
+                <i class="fa fa-chevron-left"></i> centos7安装部署gitlab
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2,415 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  12 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h1 id="一、gitlab简介："><a href="#一、gitlab简介：" class="headerlink" title="一、gitlab简介："></a>一、gitlab简介：</h1><p>GitLab是利用Ruby On Rails开发的一个开源版本管理系统，实现了一个自托管的Git项目仓库，是集代码托管，测试，部署于一体的开源git仓库管理软件，可通过web界面来进行访问公开的或私人项目。与Github类似，GitLab能够浏览代码，管理缺陷和注释。可以管理团队对仓库的访问，它非常易于浏览提交过的版本，并提供一个文件历史库。它还提供一个代码片段收集功能可以轻松实现代码复用，便于日后需要的时候查找。</p>
-<h1 id="二、安装环境："><a href="#二、安装环境：" class="headerlink" title="二、安装环境："></a>二、安装环境：</h1><p>操作系统：CentOS Linux release 7.4.1708 (Core)<br>Gitlab 版本：gitlab-ce-10.3.3<br>安装方式：由于源代码的安装需要安装很多软件包在过程中可能会出错，所以此用官方推荐的omnibus软件包安装方式，Omnibus软件包更可靠的一个原因是它使用Runit重新启动任何GitLab进程以防万一崩溃。在大量使用的GitLab实例上，Sidekiq后台工作的内存使用量将随着时间的推移而增长。Omnibus软件包通过让Sidekiq如果使用太多内存而终止来解决这个问题。在这个终止之后，Runit会检测到Sidekiq有没有运行，如果没有会启动它。由于从源代码安装没有Runit，Sidekiq无法终止，其内存使用量将随着时间的推移而增长。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/09/centos7安装部署gitlab/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -559,320 +434,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/09/centos7安装部署redis-哨兵/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Macro">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Macro's LinuxOps Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/09/centos7安装部署redis-哨兵/" itemprop="url">centos7安装部署redis+哨兵</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-09T16:31:45+08:00">
-                2018-02-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2,371 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  10 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="主从复制："><a href="#主从复制：" class="headerlink" title="主从复制："></a>主从复制：</h1><p>Redis持久化保证了即使redis服务重启也不会丢失数据因为redis服务重启后会将硬盘上持久化的数据恢复到内存中但是当redis服务器的硬盘损坏了可能会导致数据丢失如果通过redis的主从复制机制就可以避免这种单点故障，说明主redis中的数据有两个副本replication即从slave1和从slave2即使一台redis服务器宕机其它两台redis服务也可以继续提供服务。</p>
-<h1 id="sentienl-哨兵："><a href="#sentienl-哨兵：" class="headerlink" title="sentienl 哨兵："></a>sentienl 哨兵：</h1><p>Sentinel（哨兵）是Redis 的高可用性解决方案：由一个或多个Sentinel 实例 组成的Sentinel 系统可以监视任意多个主服务器，以及这些主服务器属下的所有从服务器，并在被监视的主服务器进入下线状态时，自动将下线主服务器属下的某个从服务器升级为新的主服务器。<br>A、Master 状态监测<br>B、如果Master 异常，则会进行Master-slave 转换，将其中一个Slave作为Master，将之前的Master作为Slave<br>C、Master-Slave切换后，master_redis.conf、slave_redis.conf和sentinel.conf的内容都会发生改变，即master_redis.conf中会多一行slaveof的配置，sentinel.conf的监控目标会随之调换。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/09/centos7安装部署redis-哨兵/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/07/NewBlog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Macro">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Macro's LinuxOps Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/07/NewBlog/" itemprop="url">Macro's New Blog</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T21:34:09+08:00">
-                2018-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  59 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>大家好！我是Macro</p>
-<p>由于之前的博客服务器到期，所以暂停访问，现在已经将博客移至github上。</p>
-<p>接下来我会将博客暂停时写的文档上传，请大家留意~</p>
-<p>Qq:791903037</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -880,6 +446,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -1099,6 +669,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
