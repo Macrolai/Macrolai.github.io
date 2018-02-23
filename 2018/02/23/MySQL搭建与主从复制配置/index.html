@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Macro&#39;s LinuxOps Blog">
 <meta property="og:description" content="什么是主从复制：顾名思义就是指复制一个或多个和主库完全一样的数据库环境，当然我们也称其为从数据库，多个数据库备份不仅可以加强数据的安全性，通过其他手段（例如：读写分离）还能提升数据库的负载性能。MySQL之间数据复制的基础是二进制日志文件（binary log file）。一台MySQL数据库一旦启用二进制日志后，其作为master，它的数据库中所有操作都会以“事件”的方式记录在二进制日志中，其他">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-23T09:07:33.035Z">
+<meta property="og:updated_time" content="2018-02-23T09:10:41.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL搭建与主从复制配置">
 <meta name="twitter:description" content="什么是主从复制：顾名思义就是指复制一个或多个和主库完全一样的数据库环境，当然我们也称其为从数据库，多个数据库备份不仅可以加强数据的安全性，通过其他手段（例如：读写分离）还能提升数据库的负载性能。MySQL之间数据复制的基础是二进制日志文件（binary log file）。一台MySQL数据库一旦启用二进制日志后，其作为master，它的数据库中所有操作都会以“事件”的方式记录在二进制日志中，其他">
@@ -346,7 +346,7 @@
 <li>可以在从数据库作备份、数据统计等工作，这样不影响主数据库的性能(当然建立主从复制本身就是一个备份)；</li>
 <li>减轻主库负载，可以在一些实时性要求并不太高的情况建立读写分离，主库为写，从库为读。</li>
 </ol>
-<h1 id="安装约定："><a href="#安装约定：" class="headerlink" title="安装约定："></a>安装约定：</h1><p>172.16.47.143    master<br>172.16.47.144    salve<br>程序版本：5.6.38<br>安装目录：/application/mysql-5.6.38<br>数据目录：/application/mysql-5.6.38/data<br>软件包存放目录：/tools<br>下载链接：<a href="https://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.38.tar.gz" target="_blank" rel="noopener">https://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.38.tar.gz</a></p>
+<h1 id="安装约定："><a href="#安装约定：" class="headerlink" title="安装约定："></a>安装约定：</h1><p>172.16.47.143    master<br>172.16.47.144    salve<br>程序版本：5.6.38<br>安装目录：/application/mysql-5.6.38<br>数据目录：/application/mysql-5.6.38/data<br>软件包存放目录：/tools<br>下载链接：<a href="https://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.38.tar.gz" target="_blank" rel="noopener">https://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.38.tar.gz</a><br><a id="more"></a></p>
 <h1 id="安装MySQL："><a href="#安装MySQL：" class="headerlink" title="安装MySQL："></a>安装MySQL：</h1><p>将源码包从服务器上下载到指定目录并解压：<br>[root@mysql-master tools]# wget <a href="https://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.38.tar.gz" target="_blank" rel="noopener">https://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.38.tar.gz</a><br>[root@mysql-master tools]# ls<br>mysql-5.6.38.tar.gz<br>[root@mysql-master tools]#tar –zxvf mysql-5.6.38.tar.gz<br>[root@mysql-master tools]#ls<br>mysql-5.6.38  mysql-5.6.38.tar.gz</p>
 <p>#创建mysql用户和用户组：<br>[root@mysql-master tools]# groupadd mysql<br>[root@mysql-master tools]# useradd mysql -s /bin/nologin -M -g mysql</p>
 <p>安装mysql及所依赖的软件包<br>yum install -y autoconf automake imake libxml2-devel expat-devel cmake gcc gcc-c++ libaio libaio-devel bzr bison ncurses-devel<br>[root@mysql-master tools]#cd mysql-5.6.38<br>[root@mysql-master mysql-5.6.38]# cmake \<br> -DCMAKE_INSTALL_PREFIX=/application/mysql-5.6.38 \<br> -DMYSQL_DATADIR=/application/mysql-5.6.38/data \<br> -DMYSQL_UNIX_ADDR=/application/mysql-5.6.38/tmp/mysql.sock \<br> -DDEFAULT_CHARSET=utf8 \<br> -DDEFAULT_COLLATION=utf8_general_ci \<br> -DEXTRA_CHARSETS=gbk,gb2312,utf8,ascii \<br> -DENABLED_LOCAL_INFILE=ON \<br> -DWITH_INNOBASE_STORAGE_ENGINE=1 \<br> -DWITH_FEDERATED_STORAGE_ENGINE=1 \<br> -DWITH_BLACKHOLE_STORAGE_ENGINE=1 \<br> -DWITHOUT_EXAMPLE_STORAGE_ENGINE=1 \<br> -DWITH_FAST_MUTEXES=1 \<br> -DWITH_ZLIB=bundled \<br> -DENABLED_LOCAL_INFILE=1 \<br> -DWITH_READLINE=1 \<br> -DWITH_EMBEDDED_SERVER=1 \<br> -DWITH_DEBUG=0 \</p>
