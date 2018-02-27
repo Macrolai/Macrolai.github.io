@@ -79,17 +79,25 @@
 
 
 
-<meta name="description" content="前言：有时候由于我们都不当操作导致数据库为完全关闭的过程中将进程终止，在终止后数据库无法正常使用，在这个时候如果你没有经验将会慌张失措，可能会导致更加严重的后果，例如：数据丢失，数据文件损坏等等； 现象：SQL&amp;gt;shutdown immediate当你执行完这条命令后（或其他模式），在数据库没有完全关闭的情况下你执行了ctrl+c或者终止了该命令，当你下次登陆数据库是就会出现报错。 $sql">
+<meta name="description" content="1、前言:nginx常常被作为前端负载服务器，当负载过高导致宕机将会导致整个服务不可用，这时候将会给企业带来巨大的损失，高可用由此而生，当一台master宕机后，slave将会在短时间内接替master的工作继续对外提供服务。 本文将介绍nginx结合keepalived实现前端高可用。 2、安装说明:系统环境：centos 6.6软件包：nginx 1.13.1 keepalived 1.2.1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="oracle非正常关闭导致无法连接实例">
-<meta property="og:url" content="http://yoursite.com/2018/02/26/oracle非正常关闭导致无法连接实例/index.html">
+<meta property="og:title" content="Nginx结合keepalived实现前端负载高可用">
+<meta property="og:url" content="http://yoursite.com/2018/02/27/Nginx结合keepalived实现前端负载高可用/index.html">
 <meta property="og:site_name" content="Macro&#39;s LinuxOps Blog">
-<meta property="og:description" content="前言：有时候由于我们都不当操作导致数据库为完全关闭的过程中将进程终止，在终止后数据库无法正常使用，在这个时候如果你没有经验将会慌张失措，可能会导致更加严重的后果，例如：数据丢失，数据文件损坏等等； 现象：SQL&amp;gt;shutdown immediate当你执行完这条命令后（或其他模式），在数据库没有完全关闭的情况下你执行了ctrl+c或者终止了该命令，当你下次登陆数据库是就会出现报错。 $sql">
+<meta property="og:description" content="1、前言:nginx常常被作为前端负载服务器，当负载过高导致宕机将会导致整个服务不可用，这时候将会给企业带来巨大的损失，高可用由此而生，当一台master宕机后，slave将会在短时间内接替master的工作继续对外提供服务。 本文将介绍nginx结合keepalived实现前端高可用。 2、安装说明:系统环境：centos 6.6软件包：nginx 1.13.1 keepalived 1.2.1">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-26T16:09:01.931Z">
+<meta property="og:image" content="http://yoursite.com/image/nginx/1.png">
+<meta property="og:image" content="http://yoursite.com/image/nginx/2.png">
+<meta property="og:image" content="http://yoursite.com/image/nginx/3.png">
+<meta property="og:image" content="http://yoursite.com/image/nginx/4.png">
+<meta property="og:image" content="http://yoursite.com/image/nginx/5.png">
+<meta property="og:image" content="http://yoursite.com/image/nginx/6.png">
+<meta property="og:image" content="http://yoursite.com/image/nginx/7.png">
+<meta property="og:updated_time" content="2018-02-27T14:07:28.892Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="oracle非正常关闭导致无法连接实例">
-<meta name="twitter:description" content="前言：有时候由于我们都不当操作导致数据库为完全关闭的过程中将进程终止，在终止后数据库无法正常使用，在这个时候如果你没有经验将会慌张失措，可能会导致更加严重的后果，例如：数据丢失，数据文件损坏等等； 现象：SQL&amp;gt;shutdown immediate当你执行完这条命令后（或其他模式），在数据库没有完全关闭的情况下你执行了ctrl+c或者终止了该命令，当你下次登陆数据库是就会出现报错。 $sql">
+<meta name="twitter:title" content="Nginx结合keepalived实现前端负载高可用">
+<meta name="twitter:description" content="1、前言:nginx常常被作为前端负载服务器，当负载过高导致宕机将会导致整个服务不可用，这时候将会给企业带来巨大的损失，高可用由此而生，当一台master宕机后，slave将会在短时间内接替master的工作继续对外提供服务。 本文将介绍nginx结合keepalived实现前端高可用。 2、安装说明:系统环境：centos 6.6软件包：nginx 1.13.1 keepalived 1.2.1">
+<meta name="twitter:image" content="http://yoursite.com/image/nginx/1.png">
 
 
 
@@ -119,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/26/oracle非正常关闭导致无法连接实例/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/27/Nginx结合keepalived实现前端负载高可用/"/>
 
 
 
 
 
-  <title>oracle非正常关闭导致无法连接实例 | Macro's LinuxOps Blog</title>
+  <title>Nginx结合keepalived实现前端负载高可用 | Macro's LinuxOps Blog</title>
   
 
 
@@ -242,7 +250,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/26/oracle非正常关闭导致无法连接实例/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/Nginx结合keepalived实现前端负载高可用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Macro">
@@ -259,7 +267,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">oracle非正常关闭导致无法连接实例</h1>
+          <h1 class="post-title" itemprop="name headline">Nginx结合keepalived实现前端负载高可用</h1>
         
 
         <div class="post-meta">
@@ -271,8 +279,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-26T23:48:14+08:00">
-                2018-02-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T21:03:09+08:00">
+                2018-02-27
               </time>
             
 
@@ -303,7 +311,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  417 字
+                  644 字
                 </span>
               
 
@@ -319,7 +327,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2 分钟
+                  3 分钟
                 </span>
               
             </div>
@@ -340,29 +348,29 @@
       
 
       
-        <p>前言：<br>有时候由于我们都不当操作导致数据库为完全关闭的过程中将进程终止，在终止后数据库无法正常使用，在这个时候如果你没有经验将会慌张失措，可能会导致更加严重的后果，例如：数据丢失，数据文件损坏等等；</p>
-<p>现象：<br>SQL&gt;shutdown immediate<br>当你执行完这条命令后（或其他模式），在数据库没有完全关闭的情况下你执行了ctrl+c或者终止了该命令，当你下次登陆数据库是就会出现报错。</p>
-<p>$sqlplus /nolog<br>SQL&gt;conn /as sysdba<br>Connected to an idle instance.<br>连接到了一个空闲的实例，你以为没有报错是正常的准备开始你的查询，发现<br>SQL&gt;select status from v$instance;<br>ORA-01012: not logged on</p>
-<p>Process ID: 0</p>
-<p>Session ID: 0 Serial number: 0<br>报错了，这里给出了一个很明显的错误代码ORA-01012，我们拿着这个错误代码去到oracle的官方网站查询这个导致这个错误的原因，可以导致这个问题原因有很多这里就不一一说明了，直接给出本文问题的解决方法吧。<br><a id="more"></a><br>SQL&gt;quit<br>$ ps -ef |grep ora<em>dbw0</em></p>
-<p>oracle    6519     1  0 Sep06 ?        00:00:15 ora_dbw0_bys1</p>
-<p>oracle   20947 20924  0 09:08 pts/0    00:00:00 grep ora<em>dbw0</em></p>
-<p>$ kill -9 6519<br>$ ps -ef |grep ora<em>dbw0</em></p>
-<p>oracle   20949 20924  0 09:08 pts/0    00:00:00 grep ora<em>dbw0</em></p>
-<p>$ sqlplus / as sysdba</p>
-<p>SQL*Plus: Release 11.2.0.1.0 Production on Sat Sep 7 09:08:22 2013</p>
-<p>Copyright (c) 1982, 2009, Oracle.  All rights reserved.</p>
-<p>Connected to an idle instance.</p>
-<p>SQL&gt;startup</p>
-<p>ORACLE instance started.</p>
-<p>Total System Global Area  631914496 bytes</p>
-<p>Fixed Size                  1338364 bytes</p>
-<p>Variable Size             264242180 bytes</p>
-<p>Database Buffers          360710144 bytes</p>
-<p>Redo Buffers                5623808 bytes</p>
-<p>Database mounted.</p>
-<p>Database opened.</p>
-<p>SQL&gt;</p>
+        <h1 id="1、前言"><a href="#1、前言" class="headerlink" title="1、前言:"></a>1、前言:</h1><p>nginx常常被作为前端负载服务器，当负载过高导致宕机将会导致整个服务不可用，这时候将会给企业带来巨大的损失，高可用由此而生，当一台master宕机后，slave将会在短时间内接替master的工作继续对外提供服务。</p>
+<p>本文将介绍nginx结合keepalived实现前端高可用。</p>
+<h1 id="2、安装说明"><a href="#2、安装说明" class="headerlink" title="2、安装说明:"></a>2、安装说明:</h1><p>系统环境：centos 6.6<br>软件包：nginx 1.13.1 keepalived 1.2.13<br><a id="more"></a></p>
+<h1 id="3、安装nginx"><a href="#3、安装nginx" class="headerlink" title="3、安装nginx"></a>3、安装nginx</h1><p>创建nginx安装目录：<br>mkdir /nginx</p>
+<p>安装nginx依赖关系：<br>yum -y install pcre-devel pcer openssl-devel openssl gcc g++</p>
+<p>创建nginx用户和组：<br>groupadd nginx<br>useradd -g nginx -s /bin/nologin -M nginx</p>
+<p>进入软件包目录<br>cd /home/macro/tools/</p>
+<p>解压并安装nginx：<br>tar -zvf nginx-1.13.1.tar.gz<br>cd nginx-1.13.1<br>./configure –user=nginx –group=nginx –prefix=/nginx –with-http_stub_status_module –with-http_ssl_module<br>make &amp;&amp; make install</p>
+<p>启动nginx：<br>/nginx/sbin/nginx<br>lsof -i :80 \返回以下即为正确<br><img src="/image/nginx/1.png" alt="&quot;1.png&quot;"><br>curl 192.168.1.104 \返回以下即为正确<br><img src="/image/nginx/2.png" alt="&quot;2.png&quot;"><br>在浏览器输入<a href="http://192.168.1.104" target="_blank" rel="noopener">http://192.168.1.104</a><br><img src="/image/nginx/3.png" alt="&quot;3.png&quot;"></p>
+<p>修改nginx配置文件：<br>vim /nginx/conf/nginx.conf<br>以下是修改后的配置文件：<br>[root@nginx-lb1 ~]# cat /nginx/conf/nginx.conf|grep -v ‘#’<br>worker_processes  1;</p>
+<p>events {<br>    worker_connections  10240;<br>}</p>
+<p>http {<br>    include       mime.types;<br>    default_type  application/octet-stream;<br>    sendfile        on;<br>    keepalive_timeout  65;</p>
+<p>upstream macro.com{<br>        server 192.168.137.11:8080;<br>        server 192.168.137.12:8080;<br>}<br>    server {<br>        listen       80;<br>        server_name     location;<br>        location / {<br>            proxy_pass <a href="http://macro.com" target="_blank" rel="noopener">http://macro.com</a>;<br>            proxy_redirect default;<br>        }<br>        error_page   500 502 503 504  /50x.html;<br>        location = /50x.html {<br>            root   html;<br>        }<br>    }<br>}</p>
+<p>重启nginx服务使配置生效：<br>/nginx/sbin/nginx -t \测试配置文件是否存在错误<br>/nginx/sbin/nginx -s reload<br><img src="/image/nginx/4.png" alt="&quot;4.png&quot;"></p>
+<p>编写nginx日志切割脚本：<br>vi /cut_nginx_log.sh<br>将以下内容输入后保存并退出</p>
+<p>#!/bin/sh<br>dateformat=’data +%y%m%d’<br>basedir=”/nginx”<br>nginxlogdir=”$basedir/logs”<br>logname=”access<em>www”<br>[ -d $nginxlogdir ] &amp;&amp; cd $nginxlogdir ||exie 1<br>[ -f ${logname}.log ]|| exit 1<br>/bin/mv ${logname}.log ${dateformat}</em>${logname}.log<br>$nginxlogdir/sbin/nginx -s reload</p>
+<p>#通过定时任务定时每天00点整执行/cut_nginx_log.sh切割日志：<br>cat &gt;&gt;/var/spool/cron/root &lt;<eof 00="" *="" bin="" sh="" cut_nginx_log.sh="">/dev/null 2&gt;&amp;1<br>EOF<br>[root@nginx-lb1 ~]# crontab -l<br>00 00 <em> </em> * /bin/sh /cut_nginx_log.sh &gt;/dev/null 2&gt;&amp;1</eof></p>
+<h1 id="4、安装keepalived"><a href="#4、安装keepalived" class="headerlink" title="4、安装keepalived"></a>4、安装keepalived</h1><p>yum -y install keepalived<br>rpm -qa keepalived<br><img src="/image/nginx/5.png" alt="&quot;5.png&quot;"></p>
+<p>启动keepalived并检查服务：<br>server keepalived start<br><img src="/image/nginx/6.png" alt="&quot;6.png&quot;"></p>
+<p>配置高可用服务：<br>vi /etc/keepalived/keepalived.conf</p>
+<p>下图为masert与backup配置文件对比：<br><img src="/image/nginx/7.png" alt="&quot;7.png&quot;"></p>
+<p>测试当master宕机够backup是否会接替其工作：<br>[root@nginx-lb1 ~]# ip addr|grep 192.168.1.200<br>inet 192.168.1.200/24 scope global secondary eth0:1<br>[root@nginx-lb2 ~]# ip addr|grep 192.168.1.200<br>[root@nginx-lb2 ~]#<br>[root@nginx-lb1 ~]# service keepalived stop<br>停止 keepalived：[确定]<br>[root@nginx-lb1 ~]# ip addr|grep 192.168.1.200<br>[root@nginx-lb1 ~]#<br>[root@nginx-lb2 ~]# ip addr|grep 192.168.1.200<br>inet 192.168.1.200/24 scope global secondary eth2:1<br>[root@nginx-lb2 ~]#</p>
+<p>到此keepalived高可用+nginx负载均衡就配置完成了。</p>
 
       
     </div>
@@ -387,8 +395,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/23/MySQL搭建与主从复制配置/" rel="next" title="MySQL搭建与主从复制配置">
-                <i class="fa fa-chevron-left"></i> MySQL搭建与主从复制配置
+              <a href="/2018/02/26/oracle非正常关闭导致无法连接实例/" rel="next" title="oracle非正常关闭导致无法连接实例">
+                <i class="fa fa-chevron-left"></i> oracle非正常关闭导致无法连接实例
               </a>
             
           </div>
@@ -396,10 +404,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/27/Nginx结合keepalived实现前端负载高可用/" rel="prev" title="Nginx结合keepalived实现前端负载高可用">
-                Nginx结合keepalived实现前端负载高可用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -451,8 +455,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -517,6 +530,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、前言"><span class="nav-number">1.</span> <span class="nav-text">1、前言:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、安装说明"><span class="nav-number">2.</span> <span class="nav-text">2、安装说明:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、安装nginx"><span class="nav-number">3.</span> <span class="nav-text">3、安装nginx</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、安装keepalived"><span class="nav-number">4.</span> <span class="nav-text">4、安装keepalived</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
