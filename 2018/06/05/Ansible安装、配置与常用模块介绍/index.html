@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Macro&#39;s LinuxOps Blog">
 <meta property="og:description" content="前言：假如让你在一组服务器安装某个软件，服务器少的话还可以接受，但如果有上百台服务器的话，这样会耗费大量时间，在这时候Ansible就由此而生； Ansible简介：ansible是新出现的自动化运维工具，基于Python开发，集合了众多运维工具（puppet、cfengine、chef、func、fabric）的优点，实现了批量系统配置、批量程序部署、批量运行命令等功能。 ansible是基于模">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-05T06:04:42.286Z">
+<meta property="og:updated_time" content="2018-06-05T06:06:43.698Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ansible安装、配置与常用模块介绍">
 <meta name="twitter:description" content="前言：假如让你在一组服务器安装某个软件，服务器少的话还可以接受，但如果有上百台服务器的话，这样会耗费大量时间，在这时候Ansible就由此而生； Ansible简介：ansible是新出现的自动化运维工具，基于Python开发，集合了众多运维工具（puppet、cfengine、chef、func、fabric）的优点，实现了批量系统配置、批量程序部署、批量运行命令等功能。 ansible是基于模">
@@ -394,13 +394,11 @@ accelerate_multi_key = yes
 </code></pre><h1 id="测试："><a href="#测试：" class="headerlink" title="测试："></a>测试：</h1><pre><code>ansible all -m ping
 ![&quot;3.png&quot;](/image/ansible/3.png)
 回复pong则表示主机在线
-</code></pre><h1 id="Ansible常用模块："><a href="#Ansible常用模块：" class="headerlink" title="Ansible常用模块："></a>Ansible常用模块：</h1><p>ping模块：</p>
-<pre><code>检查主机是否在线，如果主机在线则回复pong
+</code></pre><h1 id="Ansible常用模块："><a href="#Ansible常用模块：" class="headerlink" title="Ansible常用模块："></a>Ansible常用模块：</h1><h1 id="ping模块："><a href="#ping模块：" class="headerlink" title="ping模块："></a>ping模块：</h1><pre><code>检查主机是否在线，如果主机在线则回复pong
 
 示例：
 ansible all -m ping //如果不需要检查全部主机，可将all改为定义的组名或单独ip
-</code></pre><p>yum模块：</p>
-<pre><code>使用yum软件包管理器管理软件包，其选项有： 
+</code></pre><h1 id="yum模块："><a href="#yum模块：" class="headerlink" title="yum模块："></a>yum模块：</h1><pre><code>使用yum软件包管理器管理软件包，其选项有： 
 – config_file：yum的配置文件 （optional） 
 – disable_gpg_check：关闭gpg_check （optional） 
 – disablerepo：不启用某个源 （optional） 
@@ -661,7 +659,7 @@ ansible all -m file -a &quot;path=/root/macro state=absent&quot; #删除刚创�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible简介："><span class="nav-number">2.</span> <span class="nav-text">Ansible简介：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible安装："><span class="nav-number">3.</span> <span class="nav-text">Ansible安装：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装要求："><span class="nav-number">4.</span> <span class="nav-text">安装要求：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装环境："><span class="nav-number">5.</span> <span class="nav-text">安装环境：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible配置："><span class="nav-number">6.</span> <span class="nav-text">Ansible配置：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试："><span class="nav-number">7.</span> <span class="nav-text">测试：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible常用模块："><span class="nav-number">8.</span> <span class="nav-text">Ansible常用模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#service模块："><span class="nav-number">9.</span> <span class="nav-text">service模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#user模块："><span class="nav-number">10.</span> <span class="nav-text">user模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#group模块："><span class="nav-number">11.</span> <span class="nav-text">group模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#copy模块："><span class="nav-number">12.</span> <span class="nav-text">copy模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#file模块："><span class="nav-number">13.</span> <span class="nav-text">file模块：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible简介："><span class="nav-number">2.</span> <span class="nav-text">Ansible简介：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible安装："><span class="nav-number">3.</span> <span class="nav-text">Ansible安装：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装要求："><span class="nav-number">4.</span> <span class="nav-text">安装要求：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装环境："><span class="nav-number">5.</span> <span class="nav-text">安装环境：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible配置："><span class="nav-number">6.</span> <span class="nav-text">Ansible配置：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试："><span class="nav-number">7.</span> <span class="nav-text">测试：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible常用模块："><span class="nav-number">8.</span> <span class="nav-text">Ansible常用模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ping模块："><span class="nav-number">9.</span> <span class="nav-text">ping模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yum模块："><span class="nav-number">10.</span> <span class="nav-text">yum模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#service模块："><span class="nav-number">11.</span> <span class="nav-text">service模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#user模块："><span class="nav-number">12.</span> <span class="nav-text">user模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#group模块："><span class="nav-number">13.</span> <span class="nav-text">group模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#copy模块："><span class="nav-number">14.</span> <span class="nav-text">copy模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#file模块："><span class="nav-number">15.</span> <span class="nav-text">file模块：</span></a></li></ol></div>
             
 
           </div>
