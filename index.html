@@ -343,8 +343,7 @@
 
       
         
-          
-            <p>前言：</p>
+          <p>前言：</p>
 <p>假如让你在一组服务器安装某个软件，服务器少的话还可以接受，但如果有上百台服务器的话，这样会耗费大量时间，在这时候Ansible就由此而生；</p>
 <p>Ansible简介：</p>
 <p>ansible是新出现的自动化运维工具，基于Python开发，集合了众多运维工具（puppet、cfengine、chef、func、fabric）的优点，实现了批量系统配置、批量程序部署、批量运行命令等功能。<br>ansible是基于模块工作的，本身没有批量部署的能力。真正具有批量部署的是ansible所运行的模块，ansible只是提供一种框架。主要包括：<br>(1)、连接插件connection plugins：负责和被监控端实现通信；<br>(2)、host inventory：指定操作的主机，是一个配置文件里面定义监控的主机<br>(3)、各种模块核心模块、command模块、自定义模块；<br>(4)、借助于插件完成记录日志邮件等功能；<br>(5)、playbook：剧本执行多个任务时，非必需可以让节点一次性运行多个任务。</p>
@@ -355,51 +354,14 @@
 <p>控制主机：需要安装python2.6/2.7</p>
 <p>管理主机：需要安装 Python2.4 以上版本，若低于 Python2.5 需要安装 pythonsimplejson; 若启用了selinux，则需要安装libselinux-python。</p>
 <p>安装环境：</p>
-<p>系统环境：CentOS Linux release 7.4.1708 (Core)<br>软件环境：Python 2.7.5</p>
-<p>安装：<br>本文使用yum安装：<br>yum -y install epel-release<br>yum -y install ansible</p>
-<p>Ansible配置：</p>
-<p>在控制主机中的hosts文件中添加管理主机的IP地址：</p>
-<p>vim /etc/ansible/hosts<br><img src="/image/ansible/1.png" alt="&quot;1.png&quot;"><br>配置控制主机SSH密钥：</p>
-<p>ssh-keygen -t rsa<br><img src="/image/ansible/2.png" alt="&quot;2.png&quot;"><br>将公钥拷贝到管理主机中.ssh/authorized_keys文件中，实现免密登录远程管理主机：</p>
-<p>ssh-copy-id -i ~/.ssh/id_rsa.pub root@172.16.47.166</p>
-<p>修改ansible配置文件</p>
-<p>vim /etc/ansible/ansible.cfg</p>
-<p>1、禁用每次执行ansible命令检查ssh key host：</p>
-<p>host_key_checking = False</p>
-<p>2、开启日志记录：</p>
-<p>log_path = /var/log/ansible.log</p>
-<p>3、ansible连接加速配置：</p>
-<p>[accelerate]<br>accelerate_port = 10000<br>accelerate_multi_key = yes</p>
-<p>测试：</p>
-<p>ansible all -m ping<br><img src="/image/ansible/3.png" alt="&quot;3.png&quot;"><br>回复pong则表示主机在线</p>
-<p>Ansible常用模块：</p>
-<p>ping模块：</p>
-<p>检查主机是否在线，如果主机在线则回复pong</p>
-<p>示例：<br>ansible all -m ping //如果不需要检查全部主机，可将all改为定义的组名或单独ip</p>
-<p>yum模块：</p>
-<p>使用yum软件包管理器管理软件包，其选项有：<br>– config_file：yum的配置文件 （optional）<br>– disable_gpg_check：关闭gpg_check （optional）<br>– disablerepo：不启用某个源 （optional）<br>– enablerepo：启用某个源（optional）<br>– name：要进行操作的软件包的名字，默认最新的程序包，指明要安装的程序包，可以带上版本号，也可以传递一个url或者一个本地的rpm包的路径<br>– state：状态（present，absent，latest），表示是安装还卸载<br>   present:默认的，表示为安装<br>   lastest: 安装为最新的版本<br>   absent：表示删除 </p>
-<p>示例：<br>ansible all -m yum -a ‘name=httpd state=lastest’ //根据软件包名字安装<br>ansible all -m yum -a ‘name=“@Development tools” state=present’ //根据软件包安装<br>ansible all -m yum -a ‘name=<a href="http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm" target="_blank" rel="noopener">http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm</a> state=present’ //传递url安装</p>
-<p>service模块：<br>用于服务管理，如果你的系统是centos7就不要使用该模块了，因为centos7服务管理默认是systemctl<br>-arguments：给命令行提供一些选项<br>-enabled：是否开机启动yes/on，要求状态（state）和启动（enabled）中至少有一个<br>-name：必须项，服务名称<br>-runlevel：运行级别<br>-sleep：如果执行了restarted，在则stop和start之间沉睡几秒钟<br>-state：对当前服务执行启动，停止、重启、重新加载等（started,stopped,restarted,reloaded）</p>
-<p>示例：<br>ansible all -m service -a ‘name=httpd state=started’ //表示启动httpd服务<br>ansible all -m service -a ‘name=httpd state=stopped’ //表示关闭httpd服务<br>ansible all -m service -a ‘name=httpd enabled=yes’ //表示将httpd服务设为开机启动</p>
-<p>user模块：<br>user模块是请求的是useradd, userdel, usermod三个指令<br>-home：指定用户的家目录，需要与createhome配合使用。<br>-groups：指定用户的属组。<br>-uid：指定用户的uid。<br>-password：指定用户密码。 //注意！指定password参数时，不能使用明文密码，因为密码会被直接传送到被管理主机的/etc/shadow文件中，所以需将密码字符串进行加密处理，然后将得到的字符串放到password中即可。<br>-name：指定用户名。<br>-createhome：是否创建家目录yes/no。<br>-system：是否为系统用户。<br>-remove：当state=absent时，remove=yes表示连同家目录一起删除。<br>-state：present=创建，absent=删除<br>-shell：指定用户shell环境。<br>-append：如果没有指定group，append为yes，那么会添加到用户同名组，append设定为no，那么会添加到user组。如果指定了group，那么都会添加在指定的group组。<br>-generate_ssh_key：是否为相关用户生成ssh密钥，这不会覆盖现有的SSH密钥。<br>-ssh_key_bits：可选择指定要创建的ssh密钥中的位数。<br>-ssh_key_passphrase：设置ssh密钥的密码，如果没有提供密码，ssh密钥将默认没有密码。<br>-ssh_key_file：指定ssh密钥文件名（可选）， 如果这是一个相对的文件名，那么它将是相对于用户的主目录。<br>-ssh_key_type：指定要生成的ssh密钥的类型（可选），可用的SSH密钥类型将取决于目标主机上的实现。</p>
-<p>ansible all -m user -a ‘name=macro shell=/bin/shell groups=macro456 state=present’ //用户名=macro，shell环境=bash，用户组=macro456<br>ansible all -m user -a ‘name=macro state=absent remove=yes’ //删除用户<br>ansible all -m user -a “name=macro123 shell=/bin/shell generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa” //新建用户并创建sshkey</p>
-<p>group模块：</p>
-<p>-gid：指定用户的gid。<br>-name：指定组名。<br>-state：创建=present，删除=absent。<br>-system：如果等于yes，则表示创建的组为系统组。</p>
-<p>示例：<br>ansible all -m group -a “name=macro state=present”</p>
-<p>copy模块：<br>copy模块用于将本地或远程机器上的文件拷贝到远程主机上。</p>
-<p>-backup：若是相同文件，在覆盖之前会将原文件备份，注意！传输过程中copy模块会检查该文件的md5值，若md5值与目的主机的文件相同，backup选项就会不起作用。<br>-content：当使用content而不是src时，可以将文件的内容之际设置成指定的值。<br>-desc：复制到目标主机的绝对路径，如果原文件是一个目录，那该路径也必须是个目录。<br>-force：如果目标主机包含该文件，但内容不同，如果设置为yes，则强制覆盖，如果为no，则只有当目标主机的目标位置不存在该文件时，才复制。默认为yes<br>-others：所有的file模块里的选项都可以在这样使用。</p>
-<p>示例：<br>ansible all -m copy -a “src=test.txt backup=yes desc=/root”<br><img src="/image/ansible/4.png" alt="&quot;4.png&quot;"></p>
-<p>file模块：<br>file模块主要用于远程主机上的文件操作。</p>
-<p>-force： 需要在两种情况下强制创建软链接，一种是源文件不存在但之后会建立的情况下；另一种是目标软链接已存在,需要先取消之前的软链，然后创建新的软链，有两个选项：yes|no。<br>-group：定义文件/目录的属组。<br>-mode：定义文件/目录的权限。<br>-owner：定义文件/目录的属主。<br>-path：必选项，定义文件/目录的路径。<br>-recurse：递归的设置文件的属性，只对目录有效。<br>-src：要被链接的源文件路径，只应用于state=link。<br>-dest：呗链接到的路径，只应用于state=link。<br>-state：<br>    directory：如果目录不存在则创建目录。<br>    file：即使文件不存在，也不会创建。<br>    link：创建软链接。<br>    hard：创建硬链接。<br>    touch：如果文件不存在，则会创建一个新的文件，如果文件或目录已存在，则更新<br>          其最后修改时间。<br>    absent：删除目录、文件或者取消链接文件。</p>
-<p>示例：<br>ansible all -m file -a “path=/root/macro.txt owner=macro group=root mode=0755 state=touch” #创建文件，所属用户为macro，所属组为root，权限为755</p>
-<p>ansible all -m file -a “src=/root/macro.txt dest=/root/macro state=link”</p>
-<p>#将刚创建的macro.txt文本链接到/root/macro下</p>
-<p>ansible all -m file -a “path=/root/macro123 state=directory mode=777”</p>
-<p>#创建一个名为macro123的目录，权限为777</p>
-<p>ansible all -m file -a “path=/root/macro state=absent”</p>
-<p>#删除刚创建的软链接，删除文件/目录同样方法</p>
-
-          
+<p>系统环境：CentOS Linux release 7.4.1708 (Core)<br>软件环境：Python 2.7.5<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/05/Ansible安装、配置与常用模块介绍/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
