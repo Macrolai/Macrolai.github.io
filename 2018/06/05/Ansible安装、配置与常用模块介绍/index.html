@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Macro&#39;s LinuxOps Blog">
 <meta property="og:description" content="前言：假如让你在一组服务器安装某个软件，服务器少的话还可以接受，但如果有上百台服务器的话，这样会耗费大量时间，在这时候Ansible就由此而生； Ansible简介：ansible是新出现的自动化运维工具，基于Python开发，集合了众多运维工具（puppet、cfengine、chef、func、fabric）的优点，实现了批量系统配置、批量程序部署、批量运行命令等功能。 ansible是基于模">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-05T06:06:43.698Z">
+<meta property="og:updated_time" content="2018-06-05T06:10:36.735Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ansible安装、配置与常用模块介绍">
 <meta name="twitter:description" content="前言：假如让你在一组服务器安装某个软件，服务器少的话还可以接受，但如果有上百台服务器的话，这样会耗费大量时间，在这时候Ansible就由此而生； Ansible简介：ansible是新出现的自动化运维工具，基于Python开发，集合了众多运维工具（puppet、cfengine、chef、func、fabric）的优点，实现了批量系统配置、批量程序部署、批量运行命令等功能。 ansible是基于模">
@@ -303,7 +303,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,138 字
+                  2,132 字
                 </span>
               
 
@@ -319,7 +319,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  9 分钟
+                  8 分钟
                 </span>
               
             </div>
@@ -365,11 +365,12 @@ yum -y install ansible
 </code></pre><h1 id="Ansible配置："><a href="#Ansible配置：" class="headerlink" title="Ansible配置："></a>Ansible配置：</h1><pre><code>在控制主机中的hosts文件中添加管理主机的IP地址：
 
 vim /etc/ansible/hosts
-![&quot;1.png&quot;](/image/ansible/1.png)
+
+在配置文件最下面添加管理主机的IP地址
+
 配置控制主机SSH密钥：
 
 ssh-keygen -t rsa
-![&quot;2.png&quot;](/image/ansible/2.png)
 将公钥拷贝到管理主机中.ssh/authorized_keys文件中，实现免密登录远程管理主机：
 
 ssh-copy-id -i ~/.ssh/id_rsa.pub root@172.16.47.166
@@ -392,7 +393,6 @@ log_path = /var/log/ansible.log
 accelerate_port = 10000
 accelerate_multi_key = yes
 </code></pre><h1 id="测试："><a href="#测试：" class="headerlink" title="测试："></a>测试：</h1><pre><code>ansible all -m ping
-![&quot;3.png&quot;](/image/ansible/3.png)
 回复pong则表示主机在线
 </code></pre><h1 id="Ansible常用模块："><a href="#Ansible常用模块：" class="headerlink" title="Ansible常用模块："></a>Ansible常用模块：</h1><h1 id="ping模块："><a href="#ping模块：" class="headerlink" title="ping模块："></a>ping模块：</h1><pre><code>检查主机是否在线，如果主机在线则回复pong
 
@@ -464,7 +464,6 @@ ansible all -m group -a &quot;name=macro state=present&quot;
 
 示例：
 ansible all -m copy -a &quot;src=test.txt backup=yes desc=/root&quot;
-![&quot;4.png&quot;](/image/ansible/4.png)
 </code></pre><h1 id="file模块："><a href="#file模块：" class="headerlink" title="file模块："></a>file模块：</h1><pre><code>file模块主要用于远程主机上的文件操作。
 
 -force： 需要在两种情况下强制创建软链接，一种是源文件不存在但之后会建立的情况下；另一种是目标软链接已存在,需要先取消之前的软链，然后创建新的软链，有两个选项：yes|no。
