@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Macro&#39;s LinuxOps Blog">
 <meta property="og:description" content="前言：假如让你在一组服务器安装某个软件，服务器少的话还可以接受，但如果有上百台服务器的话，这样会耗费大量时间，在这时候Ansible就由此而生； Ansible简介：ansible是新出现的自动化运维工具，基于Python开发，集合了众多运维工具（puppet、cfengine、chef、func、fabric）的优点，实现了批量系统配置、批量程序部署、批量运行命令等功能。 ansible是基于模">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-29T09:44:01.189Z">
+<meta property="og:updated_time" content="2018-06-29T09:49:58.013Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ansible安装、配置与常用模块介绍">
 <meta name="twitter:description" content="前言：假如让你在一组服务器安装某个软件，服务器少的话还可以接受，但如果有上百台服务器的话，这样会耗费大量时间，在这时候Ansible就由此而生； Ansible简介：ansible是新出现的自动化运维工具，基于Python开发，集合了众多运维工具（puppet、cfengine、chef、func、fabric）的优点，实现了批量系统配置、批量程序部署、批量运行命令等功能。 ansible是基于模">
@@ -303,7 +303,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,923 字
+                  3,924 字
                 </span>
               
 
@@ -394,12 +394,12 @@ accelerate_port = 10000
 accelerate_multi_key = yes
 </code></pre><h1 id="测试："><a href="#测试：" class="headerlink" title="测试："></a>测试：</h1><pre><code>ansible all -m ping
 回复pong则表示主机在线
-</code></pre><h1 id="Ansible常用模块："><a href="#Ansible常用模块：" class="headerlink" title="Ansible常用模块："></a>Ansible常用模块：</h1><h1 id="ping模块："><a href="#ping模块：" class="headerlink" title="ping模块："></a>ping模块：</h1><pre><code>检查主机是否在线，如果主机在线则回复pong
+</code></pre><h1 id="Ansible-playbooks"><a href="#Ansible-playbooks" class="headerlink" title="Ansible playbooks:"></a>Ansible playbooks:</h1><pre><code>Playbooks是Ansible的配置，部署和编排语言。他们可以描述您希望远程系统执行的策略，或者描述一般IT流程中的一系列步骤。
+如果Ansible模块是您车间的工具，那么剧本就是您的使用说明书，并且您的主机清单是您的原材料。
+对于Ansible，几乎每个YAML文件都以一个列表开始。列表中的每个项目都是键/值对列表，通常称为“散列”或“字典”。所以，我们需要知道如何在YAML中编写列表和字典。
+
 
 示例：
-ansible all -m ping //如果不需要检查全部主机，可将all改为定义的组名或单独ip
-</code></pre><p>#Ansible playbooks:<br>    Playbooks是Ansible的配置，部署和编排语言。他们可以描述您希望远程系统执行的策略，或者描述一般IT流程中的一系列步骤。<br>    如果Ansible模块是您车间的工具，那么剧本就是您的使用说明书，并且您的主机清单是您的原材料。<br>    对于Ansible，几乎每个YAML文件都以一个列表开始。列表中的每个项目都是键/值对列表，通常称为“散列”或“字典”。所以，我们需要知道如何在YAML中编写列表和字典。</p>
-<pre><code>示例：
 ---  #这是YAML将文件解释为正确的文档的要求
 - hosts: all #指定的主机，这里指定了所有
   vars:
@@ -458,6 +458,10 @@ handlers:
     - name: restart apache
       service: name=apache state=restarted
 Handlers 最佳的应用场景是用来重启服务,或者触发系统重启操作.除此以外很少用到了
+</code></pre><h1 id="Ansible常用模块："><a href="#Ansible常用模块：" class="headerlink" title="Ansible常用模块："></a>Ansible常用模块：</h1><h1 id="ping模块："><a href="#ping模块：" class="headerlink" title="ping模块："></a>ping模块：</h1><pre><code>检查主机是否在线，如果主机在线则回复pong
+
+示例：
+ansible all -m ping //如果不需要检查全部主机，可将all改为定义的组名或单&gt;独ip
 </code></pre><h1 id="yum模块："><a href="#yum模块：" class="headerlink" title="yum模块："></a>yum模块：</h1><pre><code>使用yum软件包管理器管理软件包，其选项有： 
 – config_file：yum的配置文件 （optional） 
 – disable_gpg_check：关闭gpg_check （optional） 
@@ -549,8 +553,15 @@ ansible all -m file -a &quot;src=/root/macro.txt dest=/root/macro state=link&quo
 ansible all -m file -a &quot;path=/root/macro123 state=directory mode=777&quot; #创建一个名为macro123的目录，权限为777
 
 ansible all -m file -a &quot;path=/root/macro state=absent&quot; #删除刚创建的软链接，删除文件/目录同样方法
-</code></pre><p>#template模块：<br>    基于模版方式将一个文件复制到远程主机（格式是以jinja2的模版语言处理）<br>    -backup：如果原目标文件存在，则先备份目标文件（类似于copy模块到backup参数）<br>    -src：控制主机上的jinja2格式化模版的路径，这可以是相对路径或绝对路径<br>    -dest：将模版复制到管理主机的目录/文件<br>    -owner：目标文件属主<br>    -group：目标文件属组<br>    -mode：目标文件的权限模式，模式可以被指导为符号模式（例如，u+rwx，g=rw，o=r）</p>
-<pre><code>示例：
+</code></pre><h1 id="template模块："><a href="#template模块：" class="headerlink" title="template模块："></a>template模块：</h1><pre><code>基于模版方式将一个文件复制到远程主机（格式是以jinja2的模版语言处理）
+-backup：如果原目标文件存在，则先备份目标文件（类似于copy模块到backup参数）
+-src：控制主机上的jinja2格式化模版的路径，这可以是相对路径或绝对路径
+-dest：将模版复制到管理主机的目录/文件
+-owner：目标文件属主
+-group：目标文件属组
+-mode：目标文件的权限模式，模式可以被指导为符号模式（例如，u+rwx，g=rw，o=r）
+
+示例：
 ansible all -m template -a &quot;src=/srv/nginx.j2 dest=/etc/nginx.conf”
 #将做好的模版文件替换为管理主机上的目录/文件，与copy模块同理，传输过程中会检查该文件的md5值，若md5值与目的主机的文件相同，将不会做任何操作。
 
@@ -584,11 +595,16 @@ ansible all -m template -a &quot;src=/srv/nginx.j2 dest=/etc/nginx.conf”
     &quot;uid&quot;: 0
 }
 </code></pre><p>观察上面输出发现第一次执行changed状态为true，第二次执行changed为false，可以发现第二次执行并没有成功</p>
-<p>#command模块：<br>    command模块接受命令名称后接空格分隔参数列表，给定的命令将在选定的节点上执行，它不会通过shell进行处理，像一些特殊字符，例如”&lt;”,”&gt;”,”|”,”;”和“&amp;”将无法正常工作，如果需要用这些功能则需要调用shell模块。<br>    -chdir：在运行该命令之前cd进入该目录</p>
-<pre><code>示例：
+<h1 id="command模块："><a href="#command模块：" class="headerlink" title="command模块："></a>command模块：</h1><pre><code>command模块接受命令名称后接空格分隔参数列表，给定的命令将在选定的节点上执行，它不会通过shell进行处理，像一些特殊字符，例如”&lt;”,”&gt;”,”|”,”;”和“&amp;”将无法正常工作，如果需要用这些功能则需要调用shell模块。
+-chdir：在运行该命令之前cd进入该目录
+
+示例：
 ansible all -m command -a ‘cat /etc/passwd’
-</code></pre><p>#shell模块：<br>    shell模块接受命令名称后接空格分隔参数列表，几乎与command模块完成一样，但通过远程节点上的shell（/bin/sh）运行命令。<br>    -chdir：在运行该命令之前cd进入该目录<br>    -executable：更改用于执行该命令的shell，可执行文件的绝对路径。</p>
-<pre><code>示例：
+</code></pre><h1 id="shell模块："><a href="#shell模块：" class="headerlink" title="shell模块："></a>shell模块：</h1><pre><code>shell模块接受命令名称后接空格分隔参数列表，几乎与command模块完成一样，但通过远程节点上的shell（/bin/sh）运行命令。
+-chdir：在运行该命令之前cd进入该目录
+-executable：更改用于执行该命令的shell，可执行文件的绝对路径。
+
+示例：
 ansible all -m shell -a &apos;cat &lt; ~/test.txt executable=/bin/bash’
 </code></pre>
       
@@ -759,7 +775,7 @@ ansible all -m shell -a &apos;cat &lt; ~/test.txt executable=/bin/bash’
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible简介："><span class="nav-number">2.</span> <span class="nav-text">Ansible简介：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible安装："><span class="nav-number">3.</span> <span class="nav-text">Ansible安装：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装要求："><span class="nav-number">4.</span> <span class="nav-text">安装要求：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装环境："><span class="nav-number">5.</span> <span class="nav-text">安装环境：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible配置："><span class="nav-number">6.</span> <span class="nav-text">Ansible配置：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试："><span class="nav-number">7.</span> <span class="nav-text">测试：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible常用模块："><span class="nav-number">8.</span> <span class="nav-text">Ansible常用模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ping模块："><span class="nav-number">9.</span> <span class="nav-text">ping模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yum模块："><span class="nav-number">10.</span> <span class="nav-text">yum模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#service模块："><span class="nav-number">11.</span> <span class="nav-text">service模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#user模块："><span class="nav-number">12.</span> <span class="nav-text">user模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#group模块："><span class="nav-number">13.</span> <span class="nav-text">group模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#copy模块："><span class="nav-number">14.</span> <span class="nav-text">copy模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#file模块："><span class="nav-number">15.</span> <span class="nav-text">file模块：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible简介："><span class="nav-number">2.</span> <span class="nav-text">Ansible简介：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible安装："><span class="nav-number">3.</span> <span class="nav-text">Ansible安装：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装要求："><span class="nav-number">4.</span> <span class="nav-text">安装要求：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装环境："><span class="nav-number">5.</span> <span class="nav-text">安装环境：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible配置："><span class="nav-number">6.</span> <span class="nav-text">Ansible配置：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试："><span class="nav-number">7.</span> <span class="nav-text">测试：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible-playbooks"><span class="nav-number">8.</span> <span class="nav-text">Ansible playbooks:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ansible常用模块："><span class="nav-number">9.</span> <span class="nav-text">Ansible常用模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ping模块："><span class="nav-number">10.</span> <span class="nav-text">ping模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yum模块："><span class="nav-number">11.</span> <span class="nav-text">yum模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#service模块："><span class="nav-number">12.</span> <span class="nav-text">service模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#user模块："><span class="nav-number">13.</span> <span class="nav-text">user模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#group模块："><span class="nav-number">14.</span> <span class="nav-text">group模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#copy模块："><span class="nav-number">15.</span> <span class="nav-text">copy模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#file模块："><span class="nav-number">16.</span> <span class="nav-text">file模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#template模块："><span class="nav-number">17.</span> <span class="nav-text">template模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#command模块："><span class="nav-number">18.</span> <span class="nav-text">command模块：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#shell模块："><span class="nav-number">19.</span> <span class="nav-text">shell模块：</span></a></li></ol></div>
             
 
           </div>
