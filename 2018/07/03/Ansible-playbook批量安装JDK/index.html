@@ -89,7 +89,7 @@
 <meta property="og:image" content="http://yoursite.com/image/ansible-playbook/1.png">
 <meta property="og:image" content="http://yoursite.com/image/ansible-playbook/2.png">
 <meta property="og:image" content="http://yoursite.com/image/ansible-playbook/3.png">
-<meta property="og:updated_time" content="2018-07-03T09:53:24.988Z">
+<meta property="og:updated_time" content="2018-07-12T07:51:08.152Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ansible-playbook批量安装JDK">
 <meta name="twitter:description" content="前言：假如现在需要你在一组服务器安装一个或多个软件，如果一台一台登陆安装的话会耗费非常多的时间不符合经济效益，或许你会说我可以自己写个脚本，但你写脚本的时间已经足够我把软件安装好了，所以这时你需要一个自动化工具，本文将介绍如何利用Ansible-playbook批量安装jdk。">
@@ -307,7 +307,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  326 字
+                  319 字
                 </span>
               
 
@@ -356,10 +356,6 @@
 
 ---
 - hosts: all
-  vars:
-    http_port: 80
-    max_clients: 200
-  remote_user: root
   tasks:
   - name: copy jdk remote hosts
     copy: src=/root/jdk-8u171-linux-x64.tar dest=/root
@@ -412,6 +408,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/12/Jenkins结合gitlab实现持续集成/" rel="prev" title="Jenkins结合gitlab实现持续集成">
+                Jenkins结合gitlab实现持续集成 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -488,7 +488,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

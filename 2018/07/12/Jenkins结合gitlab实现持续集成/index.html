@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT, linux, centos ,macro" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言：发布对于运维人员而言是一件常事，发布的时候你敲每一个命令都得很细心，但人往往会因为一些环境因素影响而导致失误，而且有些小公司代码迭代速度快一天需要更新几个版本，运维人员在多次的同样操作后，可能会因为精神不集中或其他事而分心，导致误操作而影响线上业务。 简介：本文将介绍jenkins结合gitlab实现持续集成，解放运维人员的双手，让运维人员可以有更多的时间去钻研其他技术，提升服务稳定性和创造">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins结合gitlab实现持续集成">
+<meta property="og:url" content="http://yoursite.com/2018/07/12/Jenkins结合gitlab实现持续集成/index.html">
+<meta property="og:site_name" content="Macro&#39;s LinuxOps Blog">
+<meta property="og:description" content="前言：发布对于运维人员而言是一件常事，发布的时候你敲每一个命令都得很细心，但人往往会因为一些环境因素影响而导致失误，而且有些小公司代码迭代速度快一天需要更新几个版本，运维人员在多次的同样操作后，可能会因为精神不集中或其他事而分心，导致误操作而影响线上业务。 简介：本文将介绍jenkins结合gitlab实现持续集成，解放运维人员的双手，让运维人员可以有更多的时间去钻研其他技术，提升服务稳定性和创造">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/3.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/4.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/5.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/6.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/7.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/8.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/9.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/10.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/11.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/12.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/13.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/14.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/15.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/16.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/17.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/18.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/19.png">
+<meta property="og:image" content="http://yoursite.com/image/jenkins-ci/20.png">
+<meta property="og:updated_time" content="2018-07-12T07:49:46.600Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jenkins结合gitlab实现持续集成">
+<meta name="twitter:description" content="前言：发布对于运维人员而言是一件常事，发布的时候你敲每一个命令都得很细心，但人往往会因为一些环境因素影响而导致失误，而且有些小公司代码迭代速度快一天需要更新几个版本，运维人员在多次的同样操作后，可能会因为精神不集中或其他事而分心，导致误操作而影响线上业务。 简介：本文将介绍jenkins结合gitlab实现持续集成，解放运维人员的双手，让运维人员可以有更多的时间去钻研其他技术，提升服务稳定性和创造">
+<meta name="twitter:image" content="http://yoursite.com/image/jenkins-ci/3.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/12/Jenkins结合gitlab实现持续集成/"/>
+
+
+
+
+
+  <title>Jenkins结合gitlab实现持续集成 | Macro's LinuxOps Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Macro's LinuxOps Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Welcome To My LinuxOps Blog 记录运维成长路上的每一点每一滴。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/12/Jenkins结合gitlab实现持续集成/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Macro">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Macro's LinuxOps Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Jenkins结合gitlab实现持续集成</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-12T11:22:18+08:00">
+                2018-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  918 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  4 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><pre><code>发布对于运维人员而言是一件常事，发布的时候你敲每一个命令都得很细心，但人往往会因为一些环境因素影响而导致失误，而且有些小公司代码迭代速度快一天需要更新几个版本，运维人员在多次的同样操作后，可能会因为精神不集中或其他事而分心，导致误操作而影响线上业务。
+</code></pre><h1 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h1><pre><code>本文将介绍jenkins结合gitlab实现持续集成，解放运维人员的双手，让运维人员可以有更多的时间去钻研其他技术，提升服务稳定性和创造更大的价值。
+</code></pre><a id="more"></a>
+<pre><code>![&quot;1.png&quot;](/image/jenkins-ci/1.png)
+</code></pre><h1 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h1><pre><code>Jenkins发布机器：172.16.47.187
+gitlab代码仓库：172.16.47.185
+Nginx服务器：172.16.47.188
+
+Jenkins的安装将会在往后更新，敬请谅解
+</code></pre><h1 id="配置ssh免密登陆："><a href="#配置ssh免密登陆：" class="headerlink" title="配置ssh免密登陆："></a>配置ssh免密登陆：</h1><p>#在发布机器上创建sshkey<br>    [root@jenkins ~]# useradd www<br>    [root@jenkins ~]# passwd www<br>    Changing password for user www.<br>    New password: 123456<br>    BAD PASSWORD: The password is shorter than 8 characters<br>    Retype new password: 123456<br>    passwd: all authentication tokens updated successfully.<br>    [root@jenkins ~]# su - www<br>    [www@jenkins ~]$ ssh-keygen -t ras<br>    [www@jenkins ~]$ cat ~/.ssh/id_rsa.pub<br>    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDX9V9MAzNlITVsDu97EgXSSu3q4pRq6CleXY9468BJWRlIWEMpuSy1a6NYlY+kEUjnFfvhjtG6o0WJy96NIH+0p4iSfI/5j2pMQuViJl7M8sA3ujJ9EwIgXwX1zYkpWvQEC2znHR5/GdpuJCZnH0clJs+RmUAxG6X7xxXQTFSzXzHp2Gktzunr1R/yfvIZEqIlozbf7IDHYujiCtZDNhdKrKEUFjmZwTk4XRMsRu08wD12ygCEtV/xCoYuPdco3YtYSoYjpkOlR0RHBl2eMbkze+ogIyAieRjK4WRiT7ucl+ddQ7rGi0dG1RvzBctvtWfHCKYdRdALSunvJxUN/Th www@jenkins</p>
+<p>#将公钥放到nginx服务器上的www用户下<br>    [root@nginx-node1 ~]# user add www<br>    [root@nginx-node1 ~]# su - www<br>    [www@nginx-node1 ~]$ vim ~/.ssh/authorized_keys</p>
+<pre><code>#将Jenkins发布机器生成的ssh公钥放到里面
+#Jenkins测试登陆nginx服务器
+![&quot;2.png&quot;](/image/jenkins-ci/2.png)
+</code></pre><p>#将Jenkins发布机器公钥放到gitlab上<br>    <img src="/image/jenkins-ci/3.png" alt="&quot;3.png&quot;"></p>
+<p>#创建一个项目并测试通过ssh拉取代码<br>    <img src="/image/jenkins-ci/4.png" alt="&quot;4.png&quot;"></p>
+<p>#在浏览器输入<a href="http://172.16.47.187:8080" target="_blank" rel="noopener">http://172.16.47.187:8080</a> 点击系统管理-插件管理-可选插件<br>    <img src="/image/jenkins-ci/5.png" alt="&quot;5.png&quot;"></p>
+<p>#将Jenkins发布机器私钥添加到Jenkins里 点击凭据<br>    <img src="/image/jenkins-ci/6.png" alt="&quot;6.png&quot;"><br>    <img src="/image/jenkins-ci/7.png" alt="&quot;7.png&quot;"></p>
+<p>#创建一个新的任务<br>    <img src="/image/jenkins-ci/8.png" alt="&quot;8.png&quot;"><br>    <img src="/image/jenkins-ci/9.png" alt="&quot;9.png&quot;"></p>
+<p>#保存退出，点击立即构建<br>    <img src="/image/jenkins-ci/10.png" alt="&quot;10.png&quot;"></p>
+<p>#随机生成10个数字用于jenkins与gitlab的token验证<br>    [www@jenkins ~]$ openssl rand -hex 10<br>    84b3b8cdf9ab33a0481b</p>
+<p>#配置jenkins触发器<br>    <img src="/image/jenkins-ci/11.png" alt="&quot;11.png&quot;"></p>
+<p>#配置gitlab webhook<br>    <img src="/image/jenkins-ci/12.png" alt="&quot;12.png&quot;"><br>    <img src="/image/jenkins-ci/13.png" alt="&quot;13.png&quot;"><br>    <img src="/image/jenkins-ci/14.png" alt="&quot;14.png&quot;"></p>
+<p>#返回200即为成功</p>
+<p>#安装ssh插件<br>    <img src="/image/jenkins-ci/15.png" alt="&quot;15.png&quot;"></p>
+<p>#返回首页，点击凭据<br>    <img src="/image/jenkins-ci/16.png" alt="&quot;16.png&quot;"></p>
+<p>#添加凭据<br>    <img src="/image/jenkins-ci/17.png" alt="&quot;17.png&quot;"></p>
+<p>#保存返回首页，点击auto-deploy项目-配置<br>    <img src="/image/jenkins-ci/18.png" alt="&quot;18.png&quot;"></p>
+<p>#更改index.html文件，提交代码<br>    <img src="/image/jenkins-ci/19.png" alt="&quot;19.png&quot;"><br>    <img src="/image/jenkins-ci/20.png" alt="&quot;20.png&quot;"></p>
+<p>#到此为止，通过git push触发jenkins自动化部署就已经完成了。</p>
+<h1 id="附录："><a href="#附录：" class="headerlink" title="附录："></a>附录：</h1><h1 id="自动化Shell脚本"><a href="#自动化Shell脚本" class="headerlink" title="自动化Shell脚本"></a>自动化Shell脚本</h1><pre><code>该脚本并不是很完善，仅仅满足自动化部署，可根据自身情况修改该脚本
+#!/bin/bash
+
+USER=&quot;www&quot;
+
+#Code env
+PRO_NAME=&quot;auto-deploy&quot;
+CODE_DIR=&quot;/data/code&quot;
+SOURCE_DIR=&quot;/data/source/$PRO_NAME&quot;
+WEB_DIR=&quot;/data/nginx/html&quot;
+TMP_DIR=&quot;/data/deploy_tmp&quot;
+
+#Date/Time
+CDATE=$(date &quot;+%Y-%m-%d&quot;)
+CTIME=$(date &quot;+%H%M_%S&quot;)
+
+#Node list
+NODE_LIST=&apos;172.16.47.188&apos;
+ROLLBACK_LIST=&apos;172.16.47.188&apos;
+
+#Shell Env
+SHELL_DIR=&quot;/data/shell/&quot;
+SHELL_NAME=&quot;auto-deploy&quot;
+
+#log
+SHELL_LOG=&quot;${SHELL_DIR}/${SHELL_NAME}.log&quot;
+LOCK_FILE=&quot;/tmp/deploy.lock&quot;
+
+#Lock
+shell_lock(){
+    touch ${LOCK_FILE}
+}
+
+shell_unlock(){
+    rm -f ${LOCK_FILE}
+}
+
+#URL Test
+url_test(){
+    URL=$1
+        curl -s --head $URL|egrep &apos;200|301|302&apos;
+    if [ $? -ne 0 ];then
+        shell_unlock;
+        echo &quot;$URL test error&quot; &amp;&amp; exit;
+    fi
+}
+
+writelog(){
+    LOGINFO=$1
+    echo &quot;${CDATE}-${CTIME}:${SHELL_NAME}:${LOGINFO}&quot; &gt;&gt; ${SHELL_LOG}
+}
+
+code_get(){
+    writelog &quot;code_get&quot;
+    cd $SOURCE_DIR
+        git pull
+        GIT_CID=$(git log|awk &apos;NR==1{print $2}&apos;|cut -c 1-6)
+        PKG_VER=&quot;${CDATE}_${CTIME}_${GIT_CID}&quot;
+        PKG_NAME=&quot;${PRO_NAME}_${PKG_VER}&quot;
+        cp -r ${SOURCE_DIR} ${TMP_DIR}/${PKG_NAME}
+}
+
+code_tar(){
+    writelog &quot;code_tar&quot;
+    cd ${TMP_DIR} &amp;&amp; tar czf ${PKG_NAME}_tar.gz ${PKG_NAME}
+        writelog &quot;${PKG_NAME}_tar.gz&quot;
+}
+
+code_scp(){
+    writelog &quot;code_scp&quot;
+    for node in $NODE_LIST;do
+        scp ${TMP_DIR}/${PKG_NAME}_tar.gz $USER@$node:${TMP_DIR}/
+    done
+}
+
+pre_deploy(){
+    writelog &quot;remove from cluster&quot;
+    ssh $USER@$NODE_LIST &quot;cd ${TMP_DIR} &amp;&amp; tar xf ${PKG_NAME}_tar.gz -C ${CODE_DIR}/&quot;
+    ssh $USER@$NODE_LIST &quot;rm -f $WEB_DIR/${PRO_NAME} &amp;&amp; ln -s ${CODE_DIR}/${PKG_NAME} $WEB_DIR/${PRO_NAME}&quot;
+}
+
+pre_test(){
+    url_test &quot;http://${NODE_LIST}/${PRO_NAME}/index.html&quot;
+    echo &quot;Rre add to cluster&quot;
+}
+
+rollback_list(){
+    for node in $NODE_LIST;do
+        ssh $USER@$node ls -l &quot;$WEB_DIR&quot; &amp;&amp; \
+        ssh $USER@$node find &quot;$CODE_DIR/&quot; -maxdepth 1 -mtime -2|sed 1d|awk -F &apos;/&apos; &apos;{print $4}&apos;
+    done
+}
+
+rollback_fun(){
+    if [ -z $ROOLBACK ];then
+        shell_unlock;
+        echo &quot;Please input rollback version&quot; $$ exit;
+    else
+        for node in $NODE_LIST;do
+        ssh $USER@$node rm -f $WEB_DIR/${PRO_NAME} &amp;&amp; \
+        ssh $USER@$node ln -s ${CODE_DIR}/$ROOLBACK $WEB_DIR/${PRO_NAME}
+        done
+    fi
+}
+
+main(){
+    if [ -f &quot;$LOCK_FILE&quot; ];then
+        echo &quot;Deploy is Running&quot; &amp;&amp; exit;
+    fi
+
+DEPLOY_METHOD=&quot;$1&quot;
+ROOLBACK=&quot;$2&quot;
+case $DEPLOY_METHOD in
+    deploy)
+        shell_lock;
+        code_get;
+        code_tar;
+        code_scp;
+        pre_deploy;
+        pre_test;
+        shell_unlock;
+        ;;
+    list)
+        rollback_list;
+        ;;
+    rollback)
+        shell_lock;
+        rollback_fun $ROOLBACK;
+        shell_unlock;
+        ;;
+    *)
+echo &quot;$Usage:$0 [ deploy | list | rollback ]&quot;
+esac
+}
+
+main $1 $2
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/03/Ansible-playbook批量安装JDK/" rel="next" title="Ansible-playbook批量安装JDK">
+                <i class="fa fa-chevron-left"></i> Ansible-playbook批量安装JDK
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Macro</p>
+              <p class="site-description motion-element" itemprop="description">记录运维成长路上每一点每一滴。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://linuxunix.xyz/" title="林文杰博客" target="_blank">林文杰博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简介："><span class="nav-number">2.</span> <span class="nav-text">简介：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境："><span class="nav-number">3.</span> <span class="nav-text">环境：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置ssh免密登陆："><span class="nav-number">4.</span> <span class="nav-text">配置ssh免密登陆：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附录："><span class="nav-number">5.</span> <span class="nav-text">附录：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自动化Shell脚本"><span class="nav-number">6.</span> <span class="nav-text">自动化Shell脚本</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Macro</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
