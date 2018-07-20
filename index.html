@@ -242,6 +242,212 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/CentOS7通过yum安装Jenkins/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Macro">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Macro's LinuxOps Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/CentOS7通过yum安装Jenkins/" itemprop="url">CentOS7通过yum安装Jenkins</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-20T15:01:48+08:00">
+                2018-07-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  593 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  3 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>Jenkins是一个免费且开源的自动化工具，提供持续集成、持续交付以及持续部署，无论你使用任何平台Jenkins都可以处理任何类型的构建和部署。</p>
+<h1 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h1><pre><code>CentOS Linux release 7.4.1708 (Core)
+java-1.8.0-openjdk.x86_64 1:1.8.0.171-8.b10.el7_5 //2.54（2017-04）和更新版本：java1.8+
+</code></pre><h1 id="安装条件："><a href="#安装条件：" class="headerlink" title="安装条件："></a>安装条件：</h1><pre><code>最低硬件要求：
+    256MB的RAM
+    1GB的磁盘空间（如果将Jenkins作为Docker容器运行，建议最小值为10GB）
+
+小团队的推荐硬件配置：
+    1GB+RAM
+    50GB+的磁盘空间
+
+以上内容来自Jenkins官网：https://jenkins.io/doc/book/installing/
+</code></pre><h1 id="安装部署："><a href="#安装部署：" class="headerlink" title="安装部署："></a>安装部署：</h1><h1 id="安装jdk环境："><a href="#安装jdk环境：" class="headerlink" title="安装jdk环境："></a>安装jdk环境：</h1><pre><code>[root@Jenkins ~]# yum -y install java-1.8.0-openjdk
+此次省略一万行……
+[root@Jenkins ~]# java -version
+openjdk version &quot;1.8.0_171&quot;
+OpenJDK Runtime Environment (build 1.8.0_171-b10)
+OpenJDK 64-Bit Server VM (build 25.171-b10, mixed mode)
+</code></pre><h1 id="安装Jenkins："><a href="#安装Jenkins：" class="headerlink" title="安装Jenkins："></a>安装Jenkins：</h1><pre><code>[root@Jenkins ~]# wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+--2018-07-20 14:22:21--  https://pkg.jenkins.io/redhat-stable/jenkins.repo
+Resolving pkg.jenkins.io (pkg.jenkins.io)... 52.202.51.185
+Connecting to pkg.jenkins.io (pkg.jenkins.io)|52.202.51.185|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 85
+Saving to: ‘/etc/yum.repos.d/jenkins.repo’
+
+100%[======================================&gt;] 85          --.-K/s   in 0s      
+
+2018-07-20 14:22:23 (2.11 MB/s) - ‘/etc/yum.repos.d/jenkins.repo’ saved [85/85]
+
+[root@Jenkins ~]# rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+[root@Jenkins ~]# yum -y install jenkins
+此处仍然省略一万行……
+[root@Jenkins ~]# systemctl start jenkins
+[root@Jenkins ~]# systemctl status jenkins
+● jenkins.service - LSB: Jenkins Automation Server
+   Loaded: loaded (/etc/rc.d/init.d/jenkins; bad; vendor preset: disabled)
+   Active: active (running) since 五 2018-07-20 14:26:17 CST; 5s ago
+     Docs: man:systemd-sysv-generator(8)
+  Process: 1360 ExecStart=/etc/rc.d/init.d/jenkins start (code=exited, status=0/SUCCESS)
+   CGroup: /system.slice/jenkins.service
+           └─1379 /etc/alternatives/java -Dcom.sun.akuma.Daemon=daemonized -D...
+
+7月 20 14:26:16 Jenkins systemd[1]: Starting LSB: Jenkins Automation Server...
+7月 20 14:26:16 Jenkins runuser[1365]: pam_unix(runuser:session): session o...)
+7月 20 14:26:17 Jenkins jenkins[1360]: Starting Jenkins [  确定  ]
+7月 20 14:26:17 Jenkins systemd[1]: Started LSB: Jenkins Automation Server.
+Hint: Some lines were ellipsized, use -l to show in full.
+</code></pre><p>在浏览器上输入<a href="http://ip:8080/" target="_blank" rel="noopener">http://ip:8080/</a></p>
+<p><img src="/image/jenkins/1.png" alt="&quot;1.png&quot;"><br>    [root@Jenkins ~]# cat /var/lib/jenkins/secrets/initialAdminPassword<br>    69377335a92b4ddfab420ea0777e91da</p>
+<p><img src="/image/jenkins/2.png" alt="&quot;2.png&quot;"><br>选择安装推荐的插件；</p>
+<p><img src="/image/jenkins/3.png" alt="&quot;3.png&quot;"><br>等待插件安装完成；</p>
+<p><img src="/image/jenkins/4.png" alt="&quot;4.png&quot;"><br>创建一个全新的管理员用户；</p>
+<p><img src="/image/jenkins/5.png" alt="&quot;5.png&quot;"><br><img src="/image/jenkins/6.png" alt="&quot;6.png&quot;"><br><img src="/image/jenkins/7.png" alt="&quot;7.png&quot;"><br>到此为止Jenkins的安装已经完成</p>
+<p>参考文章：Jenkins结合gitlab实现持续集成<br><a href="http://www.linuxops.cc/2018/07/12/Jenkins%E7%BB%93%E5%90%88gitlab%E5%AE%9E%E7%8E%B0%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" target="_blank" rel="noopener">http://www.linuxops.cc/2018/07/12/Jenkins%E7%BB%93%E5%90%88gitlab%E5%AE%9E%E7%8E%B0%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/12/Jenkins结合gitlab实现持续集成/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1669,163 +1875,13 @@ ansible是基于模块工作的，本身没有批量部署的能力。真正具�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/07/NewBlog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Macro">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Macro's LinuxOps Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/07/NewBlog/" itemprop="url">Macro's New Blog</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-07T21:34:09+08:00">
-                2018-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  59 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>大家好！我是Macro</p>
-<p>由于之前的博客服务器到期，所以暂停访问，现在已经将博客移至github上。</p>
-<p>接下来我会将博客暂停时写的文档上传，请大家留意~</p>
-<p>Qq:791903037</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1869,7 +1925,7 @@ ansible是基于模块工作的，本身没有批量部署的能力。真正具�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
