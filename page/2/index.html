@@ -347,7 +347,7 @@
 <h1 id="sentienl-哨兵："><a href="#sentienl-哨兵：" class="headerlink" title="sentienl 哨兵："></a>sentienl 哨兵：</h1><p>Sentinel（哨兵）是Redis 的高可用性解决方案：由一个或多个Sentinel 实例 组成的Sentinel 系统可以监视任意多个主服务器，以及这些主服务器属下的所有从服务器，并在被监视的主服务器进入下线状态时，自动将下线主服务器属下的某个从服务器升级为新的主服务器。<br>A、Master 状态监测<br>B、如果Master 异常，则会进行Master-slave 转换，将其中一个Slave作为Master，将之前的Master作为Slave<br>C、Master-Slave切换后，master_redis.conf、slave_redis.conf和sentinel.conf的内容都会发生改变，即master_redis.conf中会多一行slaveof的配置，sentinel.conf的监控目标会随之调换。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/09/centos7安装部署redis-哨兵/#meer" rel="contents">
+            <a class="btn" href="/2018/02/09/centos7安装部署redis-哨兵/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
