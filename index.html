@@ -242,6 +242,326 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/18/Python-Jenkins-API助力自动化部署/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Macro">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Macro's LinuxOps Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/18/Python-Jenkins-API助力自动化部署/" itemprop="url">Python-Jenkins API助力自动化部署</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-18T23:12:31+08:00">
+                2018-10-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,060 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h1><pre><code>Jenkins作为众多CI/CD中的佼佼者相信大家并不陌生，在各大互联网公司广泛使用，并二次开发将jenkins的某些功能封装到了自己公司所开发的运维平台中，省去很多不必要操作提高发布效率，避免很多在发布中的出现的误操作。
+</code></pre><h1 id="简介"><a href="#简介" class="headerlink" title="简介:"></a>简介:</h1><pre><code>由于本人最近在学习Python在百无聊赖之时写了一个基于Python-Jenkins API的自动部署脚本，该脚本满足日常常用的需求。
+参考资料：
+      Python-Jenkins官网:https://pypi.org/project/python-jenkins/
+      Python-Jenkins Doc:https://python-jenkins.readthedocs.io/en/latest/api.html
+      Jenkins结合gitlab实现持续集成:http://www.linuxops.cc/2018/07/12/Jenkins%E7%BB%93%E5%90%88gitlab%E5%AE%9E%E7%8E%B0%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/ (本人所写的另一篇博文，可做搭建基础环境的参考)
+</code></pre><h1 id="实现"><a href="#实现" class="headerlink" title="实现:"></a>实现:</h1><pre><code>Python菜鸟如有错误的地方，请联系本人~
+
+#!/usr/bin/env python
+# -*- coding:UTF-8 -*-
+# author：Macro
+# time：2018-08-18
+# version：0.0.1
+
+import jenkins  #引入jenkins类库
+import time
+
+class Jenkins_task:
+    def __init__(self,jenkins_url,job_name):
+        self.jenkins_url = jenkins_url    #jenkins网页url
+        self.job_name = job_name    #任务名称
+        self.user = &apos;macro&apos;        #登陆jenkins网页端用户名
+        self.password = &apos;123456&apos;    #登陆jenkins网页端秘密
+        self.jenkins_login()        #执行jenkins_login函数
+
+    def jenkins_login(self):    #登陆jenkins
+        self.server = jenkins.Jenkins(url=self.jenkins_url,username=self.user,password=self.password)
+        return self.server
+
+    def get_version(self):    #获取用户名与版本
+        user = self.user
+        version = self.server.get_version()
+        print(&apos;您好%s!您当前使用版本是：%s&apos; % (user,version))
+
+    def create_job(self,job_conf):    #创建任务
+        try:
+            self.server.create_job(self.job_name,job_conf)
+            print(&apos;任务已创建:%s&apos; % self.job_name)
+        except Exception as error:
+            return error
+
+    def get_job_list(self):    #获取任务列表
+        job_list = self.server.get_jobs()
+        print(job_list)
+
+    def del_job(self,job_name):    #删除任务
+        try:
+            self.server.delete_job(job_name)
+            print(&quot;该项目已删除:%s&quot; % job_name)
+        except jenkins.NotFoundException as error:
+            return error
+
+    def build_job(self,job_name):    #构建任务
+        try:
+            self.server.build_job(job_name)
+            print(&apos;正在构建任务%s...&apos; % job_name)
+        except jenkins.JenkinsException as error:
+            return error
+
+    def get_build_job_status(self):    #获取任务构建状态
+        next_build_number = self.server.get_job_info(self.job_name)[&apos;nextBuildNumber&apos;]    #获取构建任务号码，这个号码是唯一的
+        time.sleep(10)    #睡10秒，因为有时候jenkins还没反应过来代码已经走到这了，因此会找不到该任务
+        get_build_console_output = self.server.get_build_console_output(self.job_name,next_build_number)    #获取控制台输出
+        status = self.server.get_build_info(self.job_name,next_build_number)
+        while True:
+            if status != None and str(status[&apos;result&apos;]) == &quot;SUCCESS&quot;:
+                print(&apos;%s构建任务已完成&apos;% self.job_name)
+                return get_build_console_output
+            else:
+                if str(status[&apos;building&apos;]) == True:
+                    continue
+                else:
+                    print(&apos;Error：构建过程中发现未知错误!&apos;)
+                    return get_build_console_output
+
+default_xml = &apos;&apos;&apos;&lt;?xml version=&apos;1.1&apos; encoding=&apos;UTF-8&apos;?&gt;    #该变量内容为任务配置文件
+&lt;project&gt;
+  &lt;actions/&gt;
+  &lt;description&gt;auto-deploy&lt;/description&gt;
+  &lt;keepDependencies&gt;false&lt;/keepDependencies&gt;
+  &lt;properties&gt;
+    &lt;com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty plugin=&quot;gitlab-plugin@1.5.10&quot;&gt;
+      &lt;gitLabConnection&gt;&lt;/gitLabConnection&gt;
+    &lt;/com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty&gt;
+  &lt;/properties&gt;
+  &lt;scm class=&quot;hudson.plugins.git.GitSCM&quot; plugin=&quot;git@3.9.1&quot;&gt;
+    &lt;configVersion&gt;2&lt;/configVersion&gt;
+    &lt;userRemoteConfigs&gt;
+      &lt;hudson.plugins.git.UserRemoteConfig&gt;
+        &lt;url&gt;git@172.16.47.227:root/auto-deploy.git&lt;/url&gt;
+        &lt;credentialsId&gt;2abd9cc6-2dc8-4da6-93c0-5fe133cf28ac&lt;/credentialsId&gt;
+      &lt;/hudson.plugins.git.UserRemoteConfig&gt;
+    &lt;/userRemoteConfigs&gt;
+    &lt;branches&gt;
+      &lt;hudson.plugins.git.BranchSpec&gt;
+        &lt;name&gt;*/master&lt;/name&gt;
+      &lt;/hudson.plugins.git.BranchSpec&gt;
+    &lt;/branches&gt;
+    &lt;doGenerateSubmoduleConfigurations&gt;false&lt;/doGenerateSubmoduleConfigurations&gt;
+    &lt;submoduleCfg class=&quot;list&quot;/&gt;
+    &lt;extensions/&gt;
+  &lt;/scm&gt;
+  &lt;canRoam&gt;true&lt;/canRoam&gt;
+  &lt;disabled&gt;false&lt;/disabled&gt;
+  &lt;blockBuildWhenDownstreamBuilding&gt;false&lt;/blockBuildWhenDownstreamBuilding&gt;
+  &lt;blockBuildWhenUpstreamBuilding&gt;false&lt;/blockBuildWhenUpstreamBuilding&gt;
+  &lt;triggers&gt;
+    &lt;com.dabsquared.gitlabjenkins.GitLabPushTrigger plugin=&quot;gitlab-plugin@1.5.10&quot;&gt;
+      &lt;spec&gt;&lt;/spec&gt;
+          &lt;triggerOnPush&gt;true&lt;/triggerOnPush&gt;
+      &lt;triggerOnMergeRequest&gt;true&lt;/triggerOnMergeRequest&gt;
+      &lt;triggerOnPipelineEvent&gt;false&lt;/triggerOnPipelineEvent&gt;
+      &lt;triggerOnAcceptedMergeRequest&gt;false&lt;/triggerOnAcceptedMergeRequest&gt;
+      &lt;triggerOnClosedMergeRequest&gt;false&lt;/triggerOnClosedMergeRequest&gt;
+      &lt;triggerOnApprovedMergeRequest&gt;true&lt;/triggerOnApprovedMergeRequest&gt;
+      &lt;triggerOpenMergeRequestOnPush&gt;never&lt;/triggerOpenMergeRequestOnPush&gt;
+      &lt;triggerOnNoteRequest&gt;true&lt;/triggerOnNoteRequest&gt;
+      &lt;noteRegex&gt;Jenkins please retry a build&lt;/noteRegex&gt;
+      &lt;ciSkip&gt;true&lt;/ciSkip&gt;
+      &lt;skipWorkInProgressMergeRequest&gt;true&lt;/skipWorkInProgressMergeRequest&gt;
+      &lt;setBuildDescription&gt;true&lt;/setBuildDescription&gt;
+      &lt;branchFilterType&gt;All&lt;/branchFilterType&gt;
+      &lt;includeBranchesSpec&gt;&lt;/includeBranchesSpec&gt;
+      &lt;excludeBranchesSpec&gt;&lt;/excludeBranchesSpec&gt;
+      &lt;sourceBranchRegex&gt;&lt;/sourceBranchRegex&gt;
+      &lt;targetBranchRegex&gt;&lt;/targetBranchRegex&gt;
+      &lt;secretToken&gt;{AQAAABAAAAAwAwXZPpnSrZAm6QjiN241dhz5+iqr+nUSZ7u1aDL0N+5BEgE7MpcMMiMSohtLb1gJNLH4ljOKQrBFFTEcCQO8Xw==}&lt;/secretToken&gt;
+      &lt;pendingBuildName&gt;&lt;/pendingBuildName&gt;
+      &lt;cancelPendingBuildsOnUpdate&gt;false&lt;/cancelPendingBuildsOnUpdate&gt;
+    &lt;/com.dabsquared.gitlabjenkins.GitLabPushTrigger&gt;
+  &lt;/triggers&gt;
+  &lt;concurrentBuild&gt;false&lt;/concurrentBuild&gt;
+  &lt;builders&gt;
+    &lt;hudson.tasks.Shell&gt;
+      &lt;command&gt;&lt;/command&gt;
+    &lt;/hudson.tasks.Shell&gt;
+  &lt;/builders&gt;
+  &lt;publishers/&gt;
+  &lt;buildWrappers/&gt;
+&lt;/project&gt;&apos;&apos;&apos;
+
+server = Jenkins_task(&apos;http://172.16.47.228:8080&apos;,&apos;auto-deploy&apos;)
+server.get_version()
+server.create_job(default_xml)
+server.build_job(&apos;auto-deploy&apos;)
+print(server.get_build_job_status())
+server.del_job(&apos;auto-deploy&apos;)
+</code></pre><h1 id="执行结果"><a href="#执行结果" class="headerlink" title="执行结果:"></a>执行结果:</h1><pre><code>您好macro!您当前使用版本是：2.138.2
+正在构建任务auto-deploy...
+auto-deploy构建任务已完成
+由用户 unknown or anonymous 启动
+构建中 在工作空间 /var/lib/jenkins/workspace/auto-deploy 中
+ &gt; git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ &gt; git config remote.origin.url git@172.16.47.227:root/auto-deploy.git # timeout=10
+Fetching upstream changes from git@172.16.47.227:root/auto-deploy.git
+ &gt; git --version # timeout=10
+using GIT_SSH to set credentials 
+ &gt; git fetch --tags --progress git@172.16.47.227:root/auto-deploy.git +refs/heads/*:refs/remotes/origin/*
+ &gt; git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ &gt; git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 6a70ece6179a2d97f20cac813e9d987602c5e5b6 (refs/remotes/origin/master)
+ &gt; git config core.sparsecheckout # timeout=10
+ &gt; git checkout -f 6a70ece6179a2d97f20cac813e9d987602c5e5b6
+Commit message: &quot;Add new file&quot;
+ &gt; git rev-list --no-walk 6a70ece6179a2d97f20cac813e9d987602c5e5b6 # timeout=10
+[auto-deploy] $ /bin/sh -xe /tmp/jenkins2672158772340840607.sh
+Finished: SUCCESS
+
+auto-deploy构建任务已完成
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/CentOS7通过yum安装Jenkins/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -358,7 +678,7 @@ java-1.8.0-openjdk.x86_64 1:1.8.0.171-8.b10.el7_5 //2.54（2017-04）和更新�
 </code></pre>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/07/20/CentOS7通过yum安装Jenkins/#more" rel="contents">
+            <a class="btn" href="/2018/07/20/CentOS7通过yum安装Jenkins/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -514,7 +834,7 @@ java-1.8.0-openjdk.x86_64 1:1.8.0.171-8.b10.el7_5 //2.54（2017-04）和更新�
 <h1 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h1><p>本文将介绍jenkins结合gitlab实现持续集成，解放运维人员的双手，让运维人员可以有更多的时间去钻研其他技术，提升服务稳定性和创造更大的价值。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/07/12/Jenkins结合gitlab实现持续集成/#more" rel="contents">
+            <a class="btn" href="/2018/07/12/Jenkins结合gitlab实现持续集成/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -669,7 +989,7 @@ java-1.8.0-openjdk.x86_64 1:1.8.0.171-8.b10.el7_5 //2.54（2017-04）和更新�
           <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>假如现在需要你在一组服务器安装一个或多个软件，如果一台一台登陆安装的话会耗费非常多的时间不符合经济效益，或许你会说我可以自己写个脚本，但你写脚本的时间已经足够我把软件安装好了，所以这时你需要一个自动化工具，本文将介绍如何利用Ansible-playbook批量安装jdk。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/07/03/Ansible-playbook批量安装JDK/#more" rel="contents">
+            <a class="btn" href="/2018/07/03/Ansible-playbook批量安装JDK/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -832,7 +1152,7 @@ ansible是基于模块工作的，本身没有批量部署的能力。真正具�
 </code></pre>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/05/Ansible安装、配置与常用模块介绍/#more" rel="contents">
+            <a class="btn" href="/2018/06/05/Ansible安装、配置与常用模块介绍/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -989,7 +1309,7 @@ ansible是基于模块工作的，本身没有批量部署的能力。真正具�
 <h1 id="2、安装说明"><a href="#2、安装说明" class="headerlink" title="2、安装说明:"></a>2、安装说明:</h1><p>系统环境：centos 6.6<br>软件包：nginx 1.13.1 keepalived 1.2.13<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/27/Nginx结合keepalived实现前端负载高可用/#more" rel="contents">
+            <a class="btn" href="/2018/02/27/Nginx结合keepalived实现前端负载高可用/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1148,7 +1468,7 @@ ansible是基于模块工作的，本身没有批量部署的能力。真正具�
 <p>Session ID: 0 Serial number: 0<br>报错了，这里给出了一个很明显的错误代码ORA-01012，我们拿着这个错误代码去到oracle的官方网站查询这个导致这个错误的原因，可以导致这个问题原因有很多这里就不一一说明了，直接给出本文问题的解决方法吧。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/26/oracle非正常关闭导致无法连接实例/#more" rel="contents">
+            <a class="btn" href="/2018/02/26/oracle非正常关闭导致无法连接实例/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1309,7 +1629,7 @@ ansible是基于模块工作的，本身没有批量部署的能力。真正具�
 <h1 id="安装约定："><a href="#安装约定：" class="headerlink" title="安装约定："></a>安装约定：</h1><p>172.16.47.144    master<br>172.16.47.143    salve<br>程序版本：5.6.38<br>安装目录：/application/mysql-5.6.38<br>数据目录：/application/mysql-5.6.38/data<br>软件包存放目录：/tools<br>下载链接：<a href="https://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.38.tar.gz" target="_blank" rel="noopener">https://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.38.tar.gz</a><br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/23/MySQL搭建与主从复制配置/#more" rel="contents">
+            <a class="btn" href="/2018/02/23/MySQL搭建与主从复制配置/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1486,7 +1806,7 @@ ansible是基于模块工作的，本身没有批量部署的能力。真正具�
 </code></pre>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/11/centos7编译安装rabbitmq及集群配置/#more" rel="contents">
+            <a class="btn" href="/2018/02/11/centos7编译安装rabbitmq及集群配置/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1642,163 +1962,7 @@ ansible是基于模块工作的，本身没有批量部署的能力。真正具�
 <h1 id="二、安装环境："><a href="#二、安装环境：" class="headerlink" title="二、安装环境："></a>二、安装环境：</h1><p>操作系统：CentOS Linux release 7.4.1708 (Core)<br>Gitlab 版本：gitlab-ce-10.3.3<br>安装方式：由于源代码的安装需要安装很多软件包在过程中可能会出错，所以此用官方推荐的omnibus软件包安装方式，Omnibus软件包更可靠的一个原因是它使用Runit重新启动任何GitLab进程以防万一崩溃。在大量使用的GitLab实例上，Sidekiq后台工作的内存使用量将随着时间的推移而增长。Omnibus软件包通过让Sidekiq如果使用太多内存而终止来解决这个问题。在这个终止之后，Runit会检测到Sidekiq有没有运行，如果没有会启动它。由于从源代码安装没有Runit，Sidekiq无法终止，其内存使用量将随着时间的推移而增长。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/09/centos7安装部署gitlab/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/09/centos7安装部署redis-哨兵/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Macro">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Macro's LinuxOps Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/09/centos7安装部署redis-哨兵/" itemprop="url">centos7安装部署redis+哨兵</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-09T16:31:45+08:00">
-                2018-02-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2,371 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  10 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="主从复制："><a href="#主从复制：" class="headerlink" title="主从复制："></a>主从复制：</h1><p>Redis持久化保证了即使redis服务重启也不会丢失数据因为redis服务重启后会将硬盘上持久化的数据恢复到内存中但是当redis服务器的硬盘损坏了可能会导致数据丢失如果通过redis的主从复制机制就可以避免这种单点故障，说明主redis中的数据有两个副本replication即从slave1和从slave2即使一台redis服务器宕机其它两台redis服务也可以继续提供服务。</p>
-<h1 id="sentienl-哨兵："><a href="#sentienl-哨兵：" class="headerlink" title="sentienl 哨兵："></a>sentienl 哨兵：</h1><p>Sentinel（哨兵）是Redis 的高可用性解决方案：由一个或多个Sentinel 实例 组成的Sentinel 系统可以监视任意多个主服务器，以及这些主服务器属下的所有从服务器，并在被监视的主服务器进入下线状态时，自动将下线主服务器属下的某个从服务器升级为新的主服务器。<br>A、Master 状态监测<br>B、如果Master 异常，则会进行Master-slave 转换，将其中一个Slave作为Master，将之前的Master作为Slave<br>C、Master-Slave切换后，master_redis.conf、slave_redis.conf和sentinel.conf的内容都会发生改变，即master_redis.conf中会多一行slaveof的配置，sentinel.conf的监控目标会随之调换。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/09/centos7安装部署redis-哨兵/#more" rel="contents">
+            <a class="btn" href="/2018/02/09/centos7安装部署gitlab/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1886,7 +2050,7 @@ ansible是基于模块工作的，本身没有批量部署的能力。真正具�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

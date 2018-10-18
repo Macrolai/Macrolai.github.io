@@ -79,25 +79,17 @@
 
 
 
-<meta name="description" content="前言：Jenkins是一个免费且开源的自动化工具，提供持续集成、持续交付以及持续部署，无论你使用任何平台Jenkins都可以处理任何类型的构建和部署。 环境：CentOS Linux release 7.4.1708 (Core) java-1.8.0-openjdk.x86_64 1:1.8.0.171-8.b10.el7_5 //2.54（2017-04）和更新版本：java1.8+ 安装条件">
+<meta name="description" content="前言:Jenkins作为众多CI/CD中的佼佼者相信大家并不陌生，在各大互联网公司广泛使用，并二次开发将jenkins的某些功能封装到了自己公司所开发的运维平台中，省去很多不必要操作提高发布效率，避免很多在发布中的出现的误操作。 简介:由于本人最近在学习Python在百无聊赖之时写了一个基于Python-Jenkins API的自动部署脚本，该脚本满足日常常用的需求。 参考资料：       Py">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CentOS7通过yum安装Jenkins">
-<meta property="og:url" content="http://yoursite.com/2018/07/20/CentOS7通过yum安装Jenkins/index.html">
+<meta property="og:title" content="Python-Jenkins API助力自动化部署">
+<meta property="og:url" content="http://yoursite.com/2018/10/18/Python-Jenkins-API助力自动化部署/index.html">
 <meta property="og:site_name" content="Macro&#39;s LinuxOps Blog">
-<meta property="og:description" content="前言：Jenkins是一个免费且开源的自动化工具，提供持续集成、持续交付以及持续部署，无论你使用任何平台Jenkins都可以处理任何类型的构建和部署。 环境：CentOS Linux release 7.4.1708 (Core) java-1.8.0-openjdk.x86_64 1:1.8.0.171-8.b10.el7_5 //2.54（2017-04）和更新版本：java1.8+ 安装条件">
+<meta property="og:description" content="前言:Jenkins作为众多CI/CD中的佼佼者相信大家并不陌生，在各大互联网公司广泛使用，并二次开发将jenkins的某些功能封装到了自己公司所开发的运维平台中，省去很多不必要操作提高发布效率，避免很多在发布中的出现的误操作。 简介:由于本人最近在学习Python在百无聊赖之时写了一个基于Python-Jenkins API的自动部署脚本，该脚本满足日常常用的需求。 参考资料：       Py">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/image/jenkins/1.png">
-<meta property="og:image" content="http://yoursite.com/image/jenkins/2.png">
-<meta property="og:image" content="http://yoursite.com/image/jenkins/3.png">
-<meta property="og:image" content="http://yoursite.com/image/jenkins/4.png">
-<meta property="og:image" content="http://yoursite.com/image/jenkins/5.png">
-<meta property="og:image" content="http://yoursite.com/image/jenkins/6.png">
-<meta property="og:image" content="http://yoursite.com/image/jenkins/7.png">
-<meta property="og:updated_time" content="2018-07-20T09:59:51.963Z">
+<meta property="og:updated_time" content="2018-10-18T15:46:30.859Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CentOS7通过yum安装Jenkins">
-<meta name="twitter:description" content="前言：Jenkins是一个免费且开源的自动化工具，提供持续集成、持续交付以及持续部署，无论你使用任何平台Jenkins都可以处理任何类型的构建和部署。 环境：CentOS Linux release 7.4.1708 (Core) java-1.8.0-openjdk.x86_64 1:1.8.0.171-8.b10.el7_5 //2.54（2017-04）和更新版本：java1.8+ 安装条件">
-<meta name="twitter:image" content="http://yoursite.com/image/jenkins/1.png">
+<meta name="twitter:title" content="Python-Jenkins API助力自动化部署">
+<meta name="twitter:description" content="前言:Jenkins作为众多CI/CD中的佼佼者相信大家并不陌生，在各大互联网公司广泛使用，并二次开发将jenkins的某些功能封装到了自己公司所开发的运维平台中，省去很多不必要操作提高发布效率，避免很多在发布中的出现的误操作。 简介:由于本人最近在学习Python在百无聊赖之时写了一个基于Python-Jenkins API的自动部署脚本，该脚本满足日常常用的需求。 参考资料：       Py">
 
 
 
@@ -127,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/07/20/CentOS7通过yum安装Jenkins/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/18/Python-Jenkins-API助力自动化部署/"/>
 
 
 
 
 
-  <title>CentOS7通过yum安装Jenkins | Macro's LinuxOps Blog</title>
+  <title>Python-Jenkins API助力自动化部署 | Macro's LinuxOps Blog</title>
   
 
 
@@ -250,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/CentOS7通过yum安装Jenkins/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/18/Python-Jenkins-API助力自动化部署/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Macro">
@@ -267,7 +259,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">CentOS7通过yum安装Jenkins</h2>
+          <h2 class="post-title" itemprop="name headline">Python-Jenkins API助力自动化部署</h2>
         
 
         <div class="post-meta">
@@ -279,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-20T15:01:48+08:00">
-                2018-07-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-18T23:12:31+08:00">
+                2018-10-18
               </time>
             
 
@@ -316,7 +308,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  593 字
+                  1,060 字
                 </span>
               
 
@@ -332,7 +324,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3 分钟
+                  5 分钟
                 </span>
               
             </div>
@@ -353,64 +345,177 @@
       
 
       
-        <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><pre><code>Jenkins是一个免费且开源的自动化工具，提供持续集成、持续交付以及持续部署，无论你使用任何平台Jenkins都可以处理任何类型的构建和部署。
-</code></pre><h1 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h1><pre><code>CentOS Linux release 7.4.1708 (Core)
-java-1.8.0-openjdk.x86_64 1:1.8.0.171-8.b10.el7_5 //2.54（2017-04）和更新版本：java1.8+
-</code></pre><h1 id="安装条件："><a href="#安装条件：" class="headerlink" title="安装条件："></a>安装条件：</h1><pre><code>最低硬件要求：
-    256MB的RAM
-    1GB的磁盘空间（如果将Jenkins作为Docker容器运行，建议最小值为10GB）
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h1><pre><code>Jenkins作为众多CI/CD中的佼佼者相信大家并不陌生，在各大互联网公司广泛使用，并二次开发将jenkins的某些功能封装到了自己公司所开发的运维平台中，省去很多不必要操作提高发布效率，避免很多在发布中的出现的误操作。
+</code></pre><h1 id="简介"><a href="#简介" class="headerlink" title="简介:"></a>简介:</h1><pre><code>由于本人最近在学习Python在百无聊赖之时写了一个基于Python-Jenkins API的自动部署脚本，该脚本满足日常常用的需求。
+参考资料：
+      Python-Jenkins官网:https://pypi.org/project/python-jenkins/
+      Python-Jenkins Doc:https://python-jenkins.readthedocs.io/en/latest/api.html
+      Jenkins结合gitlab实现持续集成:http://www.linuxops.cc/2018/07/12/Jenkins%E7%BB%93%E5%90%88gitlab%E5%AE%9E%E7%8E%B0%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/ (本人所写的另一篇博文，可做搭建基础环境的参考)
+</code></pre><h1 id="实现"><a href="#实现" class="headerlink" title="实现:"></a>实现:</h1><pre><code>Python菜鸟如有错误的地方，请联系本人~
 
-小团队的推荐硬件配置：
-    1GB+RAM
-    50GB+的磁盘空间
+#!/usr/bin/env python
+# -*- coding:UTF-8 -*-
+# author：Macro
+# time：2018-08-18
+# version：0.0.1
 
-以上内容来自Jenkins官网：https://jenkins.io/doc/book/installing/
-</code></pre><a id="more"></a>
-<h1 id="安装部署："><a href="#安装部署：" class="headerlink" title="安装部署："></a>安装部署：</h1><h1 id="安装jdk环境："><a href="#安装jdk环境：" class="headerlink" title="安装jdk环境："></a>安装jdk环境：</h1><pre><code>[root@Jenkins ~]# yum -y install java-1.8.0-openjdk
-此次省略一万行……
-[root@Jenkins ~]# java -version
-openjdk version &quot;1.8.0_171&quot;
-OpenJDK Runtime Environment (build 1.8.0_171-b10)
-OpenJDK 64-Bit Server VM (build 25.171-b10, mixed mode)
-</code></pre><h1 id="安装Jenkins："><a href="#安装Jenkins：" class="headerlink" title="安装Jenkins："></a>安装Jenkins：</h1><pre><code>[root@Jenkins ~]# wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
---2018-07-20 14:22:21--  https://pkg.jenkins.io/redhat-stable/jenkins.repo
-Resolving pkg.jenkins.io (pkg.jenkins.io)... 52.202.51.185
-Connecting to pkg.jenkins.io (pkg.jenkins.io)|52.202.51.185|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 85
-Saving to: ‘/etc/yum.repos.d/jenkins.repo’
+import jenkins  #引入jenkins类库
+import time
 
-100%[======================================&gt;] 85          --.-K/s   in 0s      
+class Jenkins_task:
+    def __init__(self,jenkins_url,job_name):
+        self.jenkins_url = jenkins_url    #jenkins网页url
+        self.job_name = job_name    #任务名称
+        self.user = &apos;macro&apos;        #登陆jenkins网页端用户名
+        self.password = &apos;123456&apos;    #登陆jenkins网页端秘密
+        self.jenkins_login()        #执行jenkins_login函数
 
-2018-07-20 14:22:23 (2.11 MB/s) - ‘/etc/yum.repos.d/jenkins.repo’ saved [85/85]
+    def jenkins_login(self):    #登陆jenkins
+        self.server = jenkins.Jenkins(url=self.jenkins_url,username=self.user,password=self.password)
+        return self.server
 
-[root@Jenkins ~]# rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+    def get_version(self):    #获取用户名与版本
+        user = self.user
+        version = self.server.get_version()
+        print(&apos;您好%s!您当前使用版本是：%s&apos; % (user,version))
 
-[root@Jenkins ~]# yum -y install jenkins
-此处仍然省略一万行……
-[root@Jenkins ~]# systemctl start jenkins
-[root@Jenkins ~]# systemctl status jenkins
-● jenkins.service - LSB: Jenkins Automation Server
-   Loaded: loaded (/etc/rc.d/init.d/jenkins; bad; vendor preset: disabled)
-   Active: active (running) since 五 2018-07-20 14:26:17 CST; 5s ago
-     Docs: man:systemd-sysv-generator(8)
-  Process: 1360 ExecStart=/etc/rc.d/init.d/jenkins start (code=exited, status=0/SUCCESS)
-   CGroup: /system.slice/jenkins.service
-           └─1379 /etc/alternatives/java -Dcom.sun.akuma.Daemon=daemonized -D...
+    def create_job(self,job_conf):    #创建任务
+        try:
+            self.server.create_job(self.job_name,job_conf)
+            print(&apos;任务已创建:%s&apos; % self.job_name)
+        except Exception as error:
+            return error
 
-7月 20 14:26:16 Jenkins systemd[1]: Starting LSB: Jenkins Automation Server...
-7月 20 14:26:16 Jenkins runuser[1365]: pam_unix(runuser:session): session o...)
-7月 20 14:26:17 Jenkins jenkins[1360]: Starting Jenkins [  确定  ]
-7月 20 14:26:17 Jenkins systemd[1]: Started LSB: Jenkins Automation Server.
-Hint: Some lines were ellipsized, use -l to show in full.
-</code></pre><p>在浏览器上输入<a href="http://ip:8080/" target="_blank" rel="noopener">http://ip:8080/</a></p>
-<p><img src="/image/jenkins/1.png" alt="&quot;1.png&quot;"><br>    [root@Jenkins ~]# cat /var/lib/jenkins/secrets/initialAdminPassword<br>    69377335a92b4ddfab420ea0777e91da</p>
-<p><img src="/image/jenkins/2.png" alt="&quot;2.png&quot;"><br>选择安装推荐的插件；</p>
-<p><img src="/image/jenkins/3.png" alt="&quot;3.png&quot;"><br>等待插件安装完成；</p>
-<p><img src="/image/jenkins/4.png" alt="&quot;4.png&quot;"><br>创建一个全新的管理员用户；</p>
-<p><img src="/image/jenkins/5.png" alt="&quot;5.png&quot;"><br><img src="/image/jenkins/6.png" alt="&quot;6.png&quot;"><br><img src="/image/jenkins/7.png" alt="&quot;7.png&quot;"><br>到此为止Jenkins的安装已经完成</p>
-<p>参考文章：Jenkins结合gitlab实现持续集成<br><a href="http://www.linuxops.cc/2018/07/12/Jenkins%E7%BB%93%E5%90%88gitlab%E5%AE%9E%E7%8E%B0%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" target="_blank" rel="noopener">http://www.linuxops.cc/2018/07/12/Jenkins%E7%BB%93%E5%90%88gitlab%E5%AE%9E%E7%8E%B0%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/</a></p>
+    def get_job_list(self):    #获取任务列表
+        job_list = self.server.get_jobs()
+        print(job_list)
 
+    def del_job(self,job_name):    #删除任务
+        try:
+            self.server.delete_job(job_name)
+            print(&quot;该项目已删除:%s&quot; % job_name)
+        except jenkins.NotFoundException as error:
+            return error
+
+    def build_job(self,job_name):    #构建任务
+        try:
+            self.server.build_job(job_name)
+            print(&apos;正在构建任务%s...&apos; % job_name)
+        except jenkins.JenkinsException as error:
+            return error
+
+    def get_build_job_status(self):    #获取任务构建状态
+        next_build_number = self.server.get_job_info(self.job_name)[&apos;nextBuildNumber&apos;]    #获取构建任务号码，这个号码是唯一的
+        time.sleep(10)    #睡10秒，因为有时候jenkins还没反应过来代码已经走到这了，因此会找不到该任务
+        get_build_console_output = self.server.get_build_console_output(self.job_name,next_build_number)    #获取控制台输出
+        status = self.server.get_build_info(self.job_name,next_build_number)
+        while True:
+            if status != None and str(status[&apos;result&apos;]) == &quot;SUCCESS&quot;:
+                print(&apos;%s构建任务已完成&apos;% self.job_name)
+                return get_build_console_output
+            else:
+                if str(status[&apos;building&apos;]) == True:
+                    continue
+                else:
+                    print(&apos;Error：构建过程中发现未知错误!&apos;)
+                    return get_build_console_output
+
+default_xml = &apos;&apos;&apos;&lt;?xml version=&apos;1.1&apos; encoding=&apos;UTF-8&apos;?&gt;    #该变量内容为任务配置文件
+&lt;project&gt;
+  &lt;actions/&gt;
+  &lt;description&gt;auto-deploy&lt;/description&gt;
+  &lt;keepDependencies&gt;false&lt;/keepDependencies&gt;
+  &lt;properties&gt;
+    &lt;com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty plugin=&quot;gitlab-plugin@1.5.10&quot;&gt;
+      &lt;gitLabConnection&gt;&lt;/gitLabConnection&gt;
+    &lt;/com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty&gt;
+  &lt;/properties&gt;
+  &lt;scm class=&quot;hudson.plugins.git.GitSCM&quot; plugin=&quot;git@3.9.1&quot;&gt;
+    &lt;configVersion&gt;2&lt;/configVersion&gt;
+    &lt;userRemoteConfigs&gt;
+      &lt;hudson.plugins.git.UserRemoteConfig&gt;
+        &lt;url&gt;git@172.16.47.227:root/auto-deploy.git&lt;/url&gt;
+        &lt;credentialsId&gt;2abd9cc6-2dc8-4da6-93c0-5fe133cf28ac&lt;/credentialsId&gt;
+      &lt;/hudson.plugins.git.UserRemoteConfig&gt;
+    &lt;/userRemoteConfigs&gt;
+    &lt;branches&gt;
+      &lt;hudson.plugins.git.BranchSpec&gt;
+        &lt;name&gt;*/master&lt;/name&gt;
+      &lt;/hudson.plugins.git.BranchSpec&gt;
+    &lt;/branches&gt;
+    &lt;doGenerateSubmoduleConfigurations&gt;false&lt;/doGenerateSubmoduleConfigurations&gt;
+    &lt;submoduleCfg class=&quot;list&quot;/&gt;
+    &lt;extensions/&gt;
+  &lt;/scm&gt;
+  &lt;canRoam&gt;true&lt;/canRoam&gt;
+  &lt;disabled&gt;false&lt;/disabled&gt;
+  &lt;blockBuildWhenDownstreamBuilding&gt;false&lt;/blockBuildWhenDownstreamBuilding&gt;
+  &lt;blockBuildWhenUpstreamBuilding&gt;false&lt;/blockBuildWhenUpstreamBuilding&gt;
+  &lt;triggers&gt;
+    &lt;com.dabsquared.gitlabjenkins.GitLabPushTrigger plugin=&quot;gitlab-plugin@1.5.10&quot;&gt;
+      &lt;spec&gt;&lt;/spec&gt;
+          &lt;triggerOnPush&gt;true&lt;/triggerOnPush&gt;
+      &lt;triggerOnMergeRequest&gt;true&lt;/triggerOnMergeRequest&gt;
+      &lt;triggerOnPipelineEvent&gt;false&lt;/triggerOnPipelineEvent&gt;
+      &lt;triggerOnAcceptedMergeRequest&gt;false&lt;/triggerOnAcceptedMergeRequest&gt;
+      &lt;triggerOnClosedMergeRequest&gt;false&lt;/triggerOnClosedMergeRequest&gt;
+      &lt;triggerOnApprovedMergeRequest&gt;true&lt;/triggerOnApprovedMergeRequest&gt;
+      &lt;triggerOpenMergeRequestOnPush&gt;never&lt;/triggerOpenMergeRequestOnPush&gt;
+      &lt;triggerOnNoteRequest&gt;true&lt;/triggerOnNoteRequest&gt;
+      &lt;noteRegex&gt;Jenkins please retry a build&lt;/noteRegex&gt;
+      &lt;ciSkip&gt;true&lt;/ciSkip&gt;
+      &lt;skipWorkInProgressMergeRequest&gt;true&lt;/skipWorkInProgressMergeRequest&gt;
+      &lt;setBuildDescription&gt;true&lt;/setBuildDescription&gt;
+      &lt;branchFilterType&gt;All&lt;/branchFilterType&gt;
+      &lt;includeBranchesSpec&gt;&lt;/includeBranchesSpec&gt;
+      &lt;excludeBranchesSpec&gt;&lt;/excludeBranchesSpec&gt;
+      &lt;sourceBranchRegex&gt;&lt;/sourceBranchRegex&gt;
+      &lt;targetBranchRegex&gt;&lt;/targetBranchRegex&gt;
+      &lt;secretToken&gt;{AQAAABAAAAAwAwXZPpnSrZAm6QjiN241dhz5+iqr+nUSZ7u1aDL0N+5BEgE7MpcMMiMSohtLb1gJNLH4ljOKQrBFFTEcCQO8Xw==}&lt;/secretToken&gt;
+      &lt;pendingBuildName&gt;&lt;/pendingBuildName&gt;
+      &lt;cancelPendingBuildsOnUpdate&gt;false&lt;/cancelPendingBuildsOnUpdate&gt;
+    &lt;/com.dabsquared.gitlabjenkins.GitLabPushTrigger&gt;
+  &lt;/triggers&gt;
+  &lt;concurrentBuild&gt;false&lt;/concurrentBuild&gt;
+  &lt;builders&gt;
+    &lt;hudson.tasks.Shell&gt;
+      &lt;command&gt;&lt;/command&gt;
+    &lt;/hudson.tasks.Shell&gt;
+  &lt;/builders&gt;
+  &lt;publishers/&gt;
+  &lt;buildWrappers/&gt;
+&lt;/project&gt;&apos;&apos;&apos;
+
+server = Jenkins_task(&apos;http://172.16.47.228:8080&apos;,&apos;auto-deploy&apos;)
+server.get_version()
+server.create_job(default_xml)
+server.build_job(&apos;auto-deploy&apos;)
+print(server.get_build_job_status())
+server.del_job(&apos;auto-deploy&apos;)
+</code></pre><h1 id="执行结果"><a href="#执行结果" class="headerlink" title="执行结果:"></a>执行结果:</h1><pre><code>您好macro!您当前使用版本是：2.138.2
+正在构建任务auto-deploy...
+auto-deploy构建任务已完成
+由用户 unknown or anonymous 启动
+构建中 在工作空间 /var/lib/jenkins/workspace/auto-deploy 中
+ &gt; git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ &gt; git config remote.origin.url git@172.16.47.227:root/auto-deploy.git # timeout=10
+Fetching upstream changes from git@172.16.47.227:root/auto-deploy.git
+ &gt; git --version # timeout=10
+using GIT_SSH to set credentials 
+ &gt; git fetch --tags --progress git@172.16.47.227:root/auto-deploy.git +refs/heads/*:refs/remotes/origin/*
+ &gt; git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ &gt; git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 6a70ece6179a2d97f20cac813e9d987602c5e5b6 (refs/remotes/origin/master)
+ &gt; git config core.sparsecheckout # timeout=10
+ &gt; git checkout -f 6a70ece6179a2d97f20cac813e9d987602c5e5b6
+Commit message: &quot;Add new file&quot;
+ &gt; git rev-list --no-walk 6a70ece6179a2d97f20cac813e9d987602c5e5b6 # timeout=10
+[auto-deploy] $ /bin/sh -xe /tmp/jenkins2672158772340840607.sh
+Finished: SUCCESS
+
+auto-deploy构建任务已完成
+</code></pre>
       
     </div>
     
@@ -434,8 +539,8 @@ Hint: Some lines were ellipsized, use -l to show in full.
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/12/Jenkins结合gitlab实现持续集成/" rel="next" title="Jenkins结合gitlab实现持续集成">
-                <i class="fa fa-chevron-left"></i> Jenkins结合gitlab实现持续集成
+              <a href="/2018/07/20/CentOS7通过yum安装Jenkins/" rel="next" title="CentOS7通过yum安装Jenkins">
+                <i class="fa fa-chevron-left"></i> CentOS7通过yum安装Jenkins
               </a>
             
           </div>
@@ -443,10 +548,6 @@ Hint: Some lines were ellipsized, use -l to show in full.
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/18/Python-Jenkins-API助力自动化部署/" rel="prev" title="Python-Jenkins API助力自动化部署">
-                Python-Jenkins API助力自动化部署 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -587,7 +688,7 @@ Hint: Some lines were ellipsized, use -l to show in full.
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境："><span class="nav-number">2.</span> <span class="nav-text">环境：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装条件："><span class="nav-number">3.</span> <span class="nav-text">安装条件：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装部署："><span class="nav-number">4.</span> <span class="nav-text">安装部署：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装jdk环境："><span class="nav-number">5.</span> <span class="nav-text">安装jdk环境：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Jenkins："><span class="nav-number">6.</span> <span class="nav-text">安装Jenkins：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">2.</span> <span class="nav-text">简介:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#执行结果"><span class="nav-number">4.</span> <span class="nav-text">执行结果:</span></a></li></ol></div>
             
 
           </div>
